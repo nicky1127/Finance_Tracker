@@ -27,6 +27,8 @@ class ConnectedForm extends Component {
 
   onChangeTitle = evt => {
     // this.changeField(evt.target.id, evt.target.value);
+    console.log('evt.value: ', evt.value);
+    console.log('evt.target.value: ', evt.target.value);
     this.setState({ [evt.target.id]: evt.target.value });
   };
 
@@ -42,69 +44,31 @@ class ConnectedForm extends Component {
 
   onChangePaid = evt => {
     // this.changeField(evt.target.id, evt.target.checked);
+    this.setState({ [evt.target.id]: evt.target.checked });
   };
 
-  handleSubmit = event => {
+  onSubmit = event => {
     event.preventDefault();
-    const { title, date, price } = this.state;
+    const { title, date, price, isPaid } = this.state;
     const id = uuidv1();
-    this.props.addRecord({ title, id, date, price });
+    this.props.addRecord({ id, title, date, price, isPaid });
     this.resetRecord();
-    // setTimeout(()=>this.resetRecord(), 500);
   };
   resetRecord = () => {
-    this.setState({ title: '', date: '', price: '' });
+    this.setState({ title: '', date: '', price: '', isPaid: false });
   };
 
   render() {
-    const { title, date, price } = this.state;
+    const { title, date, price, isPaid } = this.state;
     return (
-      // <form onSubmit={this.handleSubmit}>
-      //   <div className="form-group">
-      //     <label htmlFor="title">Title</label>
-      //     <input
-      //       type="text"
-      //       className="form-control"
-      //       id="title"
-      //       value={title}
-      //       onChange={this.onChangeTitle}
-      //     />
-      //     <label htmlFor="date">Date</label>
-      //     <input
-      //       type="text"
-      //       className="form-control"
-      //       id="date"
-      //       value={date}
-      //       onChange={this.onChangeDate}
-      //     />
-      //     <label htmlFor="price">Price</label>
-      //     <input
-      //       type="text"
-      //       className="form-control"
-      //       id="price"
-      //       value={price}
-      //       onChange={this.onChangePrice}
-      //     />
-      //   </div>
-      //   <button type="submit" className="btn btn-success btn-lg">
-      //     Add
-      //   </button>
-      // </form>
       <Form>
         <Form.Input label="Title" id="title" value={title} onChange={this.onChangeTitle} />
+        <Form.Input label="Date" id="date" value={date} onChange={this.onChangeDate} />
+        <Form.Input label="Price" id="price" value={price} onChange={this.onChangePrice} />
         <Form.Field>
-          <label>Date</label>
-          <input placeholder="Date" />
+          <Checkbox label="Paid?" id="isPaid" toggle checked={isPaid} onClick={this.onChangePaid}/>
         </Form.Field>
-        <Form.Field>
-          <label>Price</label>
-          <input placeholder="Price" />
-        </Form.Field>
-
-        <Form.Field>
-          <Checkbox label="Paid?" />
-        </Form.Field>
-        <Button type="submit">Submit</Button>
+        <Button type="submit" onClick={this.onSubmit}>Submit</Button>
       </Form>
     );
   }
