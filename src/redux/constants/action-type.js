@@ -1,1 +1,3 @@
 export const ADD_RECORD = "ADD_RECORD";
+
+export const RECORDS_DATA_LOADED = "RECORDS_DATA_LOADED";
