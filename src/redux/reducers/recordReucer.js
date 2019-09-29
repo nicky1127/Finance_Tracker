@@ -6,7 +6,6 @@ const initialState = {
 
 const recordReducer = ( state = initialState, action ) => {
     if (action.type === ADD_RECORD){
-        console.log('action.payload:', action.payload);
         return Object.assign({}, state, 
             {
                 records: state.records.concat(action.payload)
@@ -14,7 +13,6 @@ const recordReducer = ( state = initialState, action ) => {
         );
     }
     if(action.type === RECORDS_DATA_LOADED){
-        console.log('action.payload:', action.payload);
         return Object.assign({}, state, {
             records: state.records.concat(action.payload)
         });
