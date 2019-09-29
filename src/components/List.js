@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'semantic-ui-react';
 import { recordList } from '../redux/actions/action-creator';
@@ -18,9 +18,25 @@ const RecordTableRow = ({ record }) => (
     <Table.Cell>{record.isPaid?'Yes':'No'}</Table.Cell>
   </Table.Row>
 );
-const ConnectedList = ({ records }) => {
-  const RecordtableRows = records.map(record => <RecordTableRow key={record.id} record={record} />);
+class ConnectedList extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      stage: 'loading'
+    };
+  }
 
+  componentDidMount(){
+    this.props.recordList();
+    this.setState({stage: 'ready'});
+  }
+
+ renderRecordtableRows() {
+   const { records } = this.props;
+   return records.map(record => <RecordTableRow key={record.id} record={record} />);
+ } 
+
+ renderTable() {
   return (
     <div>
       <Table celled>
@@ -33,11 +49,30 @@ const ConnectedList = ({ records }) => {
           </Table.Row>
         </Table.Header>
 
-        <Table.Body>{RecordtableRows}</Table.Body>
+        <Table.Body>{this.renderRecordtableRows()}</Table.Body>
       </Table>
     </div>
   );
-};
+ }
+
+
+  render(){
+    const {stage} =this.state;
+
+    const content = stage === 'ready' ? this.renderTable() : 'Loading';
+    return (
+      <div>
+        {content}
+      </div>
+    );
+  }
+}
+
+
+
+  
+  
+
 
 const List = connect(mapStateToProps, { recordList })(ConnectedList);
 

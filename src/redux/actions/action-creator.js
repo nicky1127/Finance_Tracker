@@ -1,16 +1,27 @@
-import { ADD_RECORD } from '../constants/action-type';
+import { ADD_RECORD, RECORDS_DATA_LOADED } from '../constants/action-type';
+import axios from 'axios';
+
+
 
 export const addRecord = payload => {
   const obj = { type: ADD_RECORD, payload };
   return obj;
 };
 
+
+
+
+
+//=====================================
+const config = {baseURL:'/api'};
+const http = axios.create(config);
+
+
 export const recordList = () => {
-  return dispatch => {
-    return fetch('http://localhost:5000/api/records')
-      .then(response => response.json())
-      .then(json => {
-        dispatch({ type: 'RECORDS_DATA_LOADED', payload: json.data });
+  return async dispatch => {
+    return await http.get('/records')
+      .then(response => {
+        dispatch({ type: RECORDS_DATA_LOADED, payload: response? response.data.data: [] });
       });
   };
 };
