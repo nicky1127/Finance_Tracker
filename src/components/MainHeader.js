@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Menu } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 export default class MainHeader extends Component {
   constructor() {
@@ -18,7 +19,7 @@ export default class MainHeader extends Component {
       <Menu>
         <Menu.Item>Finance Recoder</Menu.Item>
         <Menu.Item name="nina" active={activeItem === 'nina'} onClick={this.handleItemClick}>
-          Nina
+          <Link to="/">Nina</Link>
         </Menu.Item>
 
         <Menu.Item

@@ -88,12 +88,10 @@ class ConnectedList extends Component {
     const content = stage === 'ready' ? this.renderTable() : 'Loading';
     return (
       <div>
-        {content}
-        <Modal open={openModalRecordCreate} size='tiny' onClose={this.closeRecordCreateModal}>
-          <div className='col-md-8 offset-md-2'>
-          <NewRecordForm 
-            closeRecordCreateModal={this.closeRecordCreateModal}
-          />
+        <div className="col-md-10 offset-md-1">{content}</div>
+        <Modal open={openModalRecordCreate} size="tiny" onClose={this.closeRecordCreateModal}>
+          <div className="col-md-8 offset-md-2">
+            <NewRecordForm closeRecordCreateModal={this.closeRecordCreateModal} />
           </div>
         </Modal>
       </div>
