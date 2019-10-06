@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Checkbox, Button } from 'semantic-ui-react';
 import uuidv1 from 'uuid';
-import { addRecord } from '../redux/actions/action-creator';
+import { addRecord, recordCreate } from '../redux/actions/action-creator';
+import api from '../Api';
 
 const mapDispatchToProps = dispatch => ({
-  addRecord: record => dispatch(addRecord(record))
+  recordCreate: record => dispatch(recordCreate(record))
 });
 
 class ConnectedForm extends Component {
@@ -27,8 +28,6 @@ class ConnectedForm extends Component {
 
   onChangeTitle = evt => {
     // this.changeField(evt.target.id, evt.target.value);
-    console.log('evt.value: ', evt.value);
-    console.log('evt.target.value: ', evt.target.value);
     this.setState({ [evt.target.id]: evt.target.value });
   };
 
@@ -47,11 +46,16 @@ class ConnectedForm extends Component {
     this.setState({ [evt.target.id]: evt.target.checked });
   };
 
-  onSubmit = event => {
+  onSubmit = async event => {
     event.preventDefault();
+    const { closeRecordCreateModal, recordCreate } = this.props
     const { title, date, price, isPaid } = this.state;
     const id = uuidv1();
-    this.props.addRecord({ id, title, date, price, isPaid });
+    // this.props.addRecord({ id, title, date, price, isPaid });
+    try {
+      const response = await recordCreate({ id, title, date, price, isPaid });
+      closeRecordCreateModal();
+    } catch (err) {}
     this.resetRecord();
   };
   resetRecord = () => {
@@ -66,9 +70,11 @@ class ConnectedForm extends Component {
         <Form.Input label="Date" id="date" value={date} onChange={this.onChangeDate} />
         <Form.Input label="Price" id="price" value={price} onChange={this.onChangePrice} />
         <Form.Field>
-          <Checkbox label="Paid?" id="isPaid" toggle checked={isPaid} onClick={this.onChangePaid}/>
+          <Checkbox label="Paid?" id="isPaid" toggle checked={isPaid} onClick={this.onChangePaid} />
         </Form.Field>
-        <Button type="submit" onClick={this.onSubmit}>Submit</Button>
+        <Button type="submit" onClick={this.onSubmit}>
+          Submit
+        </Button>
       </Form>
     );
   }

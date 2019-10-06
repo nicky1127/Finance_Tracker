@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+
+import { ToastContainer } from 'react-toastify';
 import './index.css';
+import "react-toastify/dist/ReactToastify.css";
 import App from './App';
 import store from './redux/store';
 // import * as serviceWorker from './serviceWorker';
@@ -9,6 +12,10 @@ import store from './redux/store';
 ReactDOM.render(
     <Provider store={store}>
         <App />
+        <ToastContainer
+            position='top-center'
+            autoClose={2000}
+        />
     </Provider>
 , document.getElementById('root'));
 

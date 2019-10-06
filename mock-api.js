@@ -1,8 +1,11 @@
 const express = require('express');
 const moment = require('moment');
+const bodyParser = require('body-parser')
 
 const router = express.Router();
 const app = express();
+
+router.use(bodyParser.json());
 
 const name = 'mock-api.finance-recorder';
 const port = process.env.PORT || 5000;
@@ -19,12 +22,22 @@ function log() {
 //Records
 let records = require('./mock/api/records');
 
-function plansList(req, res) {
+function recordsList(req, res) {
   const recordsObj = [...records];
   res.json({ data: recordsObj });
 }
+router.get(`${apiBase}/records`, recordsList);
 
-router.get(`${apiBase}/records`, plansList);
+function recordCreate(req, res) {
+  console.log('==================');
+  console.log('req: ',req);
+  console.log('req.body: ',req.body);
+  console.log('req.body.data: ',req.body.data);
+  const record = req.body.data;
+  records.push(record);
+  res.json({data: record.id});
+}
+router.post(`${apiBase}/records`, recordCreate);
 
 //=======================================================
 app.use(router);

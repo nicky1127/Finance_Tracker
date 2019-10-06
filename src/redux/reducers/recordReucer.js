@@ -14,9 +14,10 @@ const recordReducer = ( state = initialState, action ) => {
     }
     if(action.type === RECORDS_DATA_LOADED){
         return Object.assign({}, state, {
-            records: state.records.concat(action.payload)
+            records: action.payload
         });
     }
+
     return state;
 };
 

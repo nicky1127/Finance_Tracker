@@ -25,3 +25,13 @@ export const recordList = () => {
       });
   };
 };
+
+export const recordCreate = (payload={}) => {
+    return async dispatch => {
+      return await http.post('/records', {data:payload})
+        .then(response => {
+          console.log('in the recordCreate function');
+          dispatch({ type: 'CREATE_RECORD', payload: response? response.data.data: null });
+        });
+    };
+  };
