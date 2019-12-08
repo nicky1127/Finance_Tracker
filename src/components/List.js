@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table, Modal, Grid, Button, Icon } from 'semantic-ui-react';
+import { Table, Modal, Grid, Button } from 'semantic-ui-react';
 import { recordList } from '../redux/actions/action-creator';
 
 import NewRecordForm from './NewRecordForm';
+import RecordTableRow from './RecordTableRow';
 
 const mapStateToProps = state => {
   if (state) {
@@ -12,34 +13,13 @@ const mapStateToProps = state => {
   return { records: [] };
 };
 
-const RecordTableRow = ({ record }) => {
-  const buttonsDom = () => (
-    <div>
-      <Button>
-        <Icon name="edit" />
-      </Button>
-      <Button>
-        <Icon name="trash" />
-      </Button>
-    </div>
-  );
-  return (
-    <Table.Row>
-      <Table.Cell>{record.title}</Table.Cell>
-      <Table.Cell>{record.date}</Table.Cell>
-      <Table.Cell>{record.price}</Table.Cell>
-      <Table.Cell>{record.isPaid ? 'Yes' : 'No'}</Table.Cell>
-      <Table.Cell>{buttonsDom()}</Table.Cell>
-    </Table.Row>
-  );
-};
-
 class ConnectedList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       stage: 'loading',
-      openModalRecordCreate: false
+      openModalRecordCreate: false,
+      openModalRecordDelete: false
     };
   }
 
@@ -60,9 +40,24 @@ class ConnectedList extends Component {
     this.setState({ openModalRecordCreate: false });
   };
 
+  openRecordDeleteModal = () => {
+    this.setState({ openModalRecordDelete: true });
+  };
+
+  closeRecordDeleteModal = () => {
+    this.setState({ openModalRecordDelete: false });
+  };
+
   renderRecordtableRows() {
     const { records } = this.props;
-    return records.map(record => <RecordTableRow key={record.id} record={record} />);
+    return records.map(record => (
+      <RecordTableRow
+        key={record.id}
+        record={record}
+        openRecordDeleteModal={this.openRecordDeleteModal}
+        closeRecordDeleteModal={this.closeRecordDeleteModal}
+      />
+    ));
   }
 
   renderTable() {
@@ -82,11 +77,11 @@ class ConnectedList extends Component {
         <Table celled>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell width='5'>Title</Table.HeaderCell>
-              <Table.HeaderCell width='2'>Date</Table.HeaderCell>
-              <Table.HeaderCell width='2'>Price</Table.HeaderCell>
-              <Table.HeaderCell width='2'>Paid</Table.HeaderCell>
-              <Table.HeaderCell width='3'>Action</Table.HeaderCell>
+              <Table.HeaderCell width="5">Title</Table.HeaderCell>
+              <Table.HeaderCell width="2">Date</Table.HeaderCell>
+              <Table.HeaderCell width="2">Price</Table.HeaderCell>
+              <Table.HeaderCell width="2">Paid</Table.HeaderCell>
+              <Table.HeaderCell width="3">Action</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
@@ -97,16 +92,28 @@ class ConnectedList extends Component {
   }
 
   render() {
-    const { stage, openModalRecordCreate } = this.state;
+    const { stage, openModalRecordCreate, openModalRecordDelete } = this.state;
 
     const content = stage === 'ready' ? this.renderTable() : 'Loading';
     return (
       <div>
         <div className="col-md-10 offset-md-1">{content}</div>
-        <Modal open={openModalRecordCreate} size="tiny" onClose={this.closeRecordCreateModal}>
+        <Modal className='modal record-create-modal' open={openModalRecordCreate} size="tiny" onClose={this.closeRecordCreateModal}>
           <div className="col-md-8 offset-md-2">
             <NewRecordForm closeRecordCreateModal={this.closeRecordCreateModal} />
           </div>
+        </Modal>
+        <Modal className='longer record-delete-modal' open={openModalRecordDelete} size="tiny" onClose={this.closeRecordDeleteModal}>
+          <Modal.Header>Delete Record</Modal.Header>
+          <Modal.Content>
+            <div className="col-md-8 offset-md-2">
+              <p>Are you sure you want to delete this record</p>
+            </div>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button negative>No</Button>
+            <Button positive icon="checkmark" labelPosition="right" content="Yes" />
+          </Modal.Actions>
         </Modal>
       </div>
     );
