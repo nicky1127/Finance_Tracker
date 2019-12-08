@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table, Modal, Grid, Button } from 'semantic-ui-react';
+import { Table, Modal, Grid, Button, Icon } from 'semantic-ui-react';
 import { recordList } from '../redux/actions/action-creator';
 
 import NewRecordForm from './NewRecordForm';
@@ -12,14 +12,28 @@ const mapStateToProps = state => {
   return { records: [] };
 };
 
-const RecordTableRow = ({ record }) => (
-  <Table.Row>
-    <Table.Cell>{record.title}</Table.Cell>
-    <Table.Cell>{record.date}</Table.Cell>
-    <Table.Cell>{record.price}</Table.Cell>
-    <Table.Cell>{record.isPaid ? 'Yes' : 'No'}</Table.Cell>
-  </Table.Row>
-);
+const RecordTableRow = ({ record }) => {
+  const buttonsDom = () => (
+    <div>
+      <Button>
+        <Icon name="edit" />
+      </Button>
+      <Button>
+        <Icon name="trash" />
+      </Button>
+    </div>
+  );
+  return (
+    <Table.Row>
+      <Table.Cell>{record.title}</Table.Cell>
+      <Table.Cell>{record.date}</Table.Cell>
+      <Table.Cell>{record.price}</Table.Cell>
+      <Table.Cell>{record.isPaid ? 'Yes' : 'No'}</Table.Cell>
+      <Table.Cell>{buttonsDom()}</Table.Cell>
+    </Table.Row>
+  );
+};
+
 class ConnectedList extends Component {
   constructor(props) {
     super(props);
@@ -72,6 +86,7 @@ class ConnectedList extends Component {
               <Table.HeaderCell>Date</Table.HeaderCell>
               <Table.HeaderCell>Price</Table.HeaderCell>
               <Table.HeaderCell>Paid</Table.HeaderCell>
+              <Table.HeaderCell>Action</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
@@ -98,10 +113,7 @@ class ConnectedList extends Component {
   }
 }
 
-const List = connect(
-  mapStateToProps,
-  { recordList }
-)(ConnectedList);
+const List = connect(mapStateToProps, { recordList })(ConnectedList);
 
 export default List;
 

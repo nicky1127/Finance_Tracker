@@ -28,13 +28,15 @@ class ConnectedMainHeader extends Component {
             Nina
           </Link>
         </Menu.Item>
-
-        <Menu.Item
-          name="bronk_jessi"
-          active={activeItem === 'bronk_jesse"'}
-          onClick={this.handleItemClick}
-        >
-          Bronk & Jesse
+        <Menu.Item active={activeItem === 'jessi'}>
+          <Link to="/" name="jessi" onClick={this.handleItemClick}>
+            Jessi
+          </Link>
+        </Menu.Item>
+        <Menu.Item active={activeItem === 'bronk'}>
+          <Link to="/" name="bronk" onClick={this.handleItemClick}>
+            Bronk
+          </Link>
         </Menu.Item>
       </Menu>
     );
