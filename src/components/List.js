@@ -82,11 +82,11 @@ class ConnectedList extends Component {
         <Table celled>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>Title</Table.HeaderCell>
-              <Table.HeaderCell>Date</Table.HeaderCell>
-              <Table.HeaderCell>Price</Table.HeaderCell>
-              <Table.HeaderCell>Paid</Table.HeaderCell>
-              <Table.HeaderCell>Action</Table.HeaderCell>
+              <Table.HeaderCell width='5'>Title</Table.HeaderCell>
+              <Table.HeaderCell width='2'>Date</Table.HeaderCell>
+              <Table.HeaderCell width='2'>Price</Table.HeaderCell>
+              <Table.HeaderCell width='2'>Paid</Table.HeaderCell>
+              <Table.HeaderCell width='3'>Action</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
