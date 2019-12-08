@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Checkbox, Button } from 'semantic-ui-react';
 import uuidv1 from 'uuid';
-import { addRecord, recordCreate } from '../redux/actions/action-creator';
-import api from '../Api';
+import { recordCreate, recordList } from '../redux/actions/action-creator';
 
-const mapDispatchToProps = dispatch => ({
-  recordCreate: record => dispatch(recordCreate(record))
-});
+// const mapDispatchToProps = dispatch => ({
+//   recordCreate: record => dispatch(recordCreate(record)),
+//   recordList: () => dispatch(recordList())
+// });
 
 class ConnectedForm extends Component {
   constructor() {
@@ -48,41 +48,51 @@ class ConnectedForm extends Component {
 
   onSubmit = async event => {
     event.preventDefault();
-    const { closeRecordCreateModal, recordCreate } = this.props
+    const { closeRecordCreateModal, recordCreate, recordList } = this.props;
     const { title, date, price, isPaid } = this.state;
     const id = uuidv1();
     // this.props.addRecord({ id, title, date, price, isPaid });
     try {
-      const response = await recordCreate({ id, title, date, price, isPaid });
+      await recordCreate({ id, title, date, price, isPaid }).then(() => recordList());
       closeRecordCreateModal();
-    } catch (err) {}
-    this.resetRecord();
+    } catch (err) {
+      console.log('err', err);
+    }
   };
-  resetRecord = () => {
-    this.setState({ title: '', date: '', price: '', isPaid: false });
+  renderForm = () => {
+    const { title, date, price, isPaid } = this.state;
+    return (
+      <div>
+        <h3>Add new record</h3>
+        <div className="new-record-form">
+          <Form>
+            <Form.Input label="Title" id="title" value={title} onChange={this.onChangeTitle} />
+            <Form.Input label="Date" id="date" value={date} onChange={this.onChangeDate} />
+            <Form.Input label="Price" id="price" value={price} onChange={this.onChangePrice} />
+            <Form.Field>
+              <Checkbox
+                label="Paid?"
+                id="isPaid"
+                toggle
+                checked={isPaid}
+                onClick={this.onChangePaid}
+              />
+            </Form.Field>
+            <Button type="submit" onClick={this.onSubmit}>
+              Submit
+            </Button>
+          </Form>
+        </div>
+      </div>
+    );
   };
 
   render() {
-    const { title, date, price, isPaid } = this.state;
-    return (
-      <Form>
-        <Form.Input label="Title" id="title" value={title} onChange={this.onChangeTitle} />
-        <Form.Input label="Date" id="date" value={date} onChange={this.onChangeDate} />
-        <Form.Input label="Price" id="price" value={price} onChange={this.onChangePrice} />
-        <Form.Field>
-          <Checkbox label="Paid?" id="isPaid" toggle checked={isPaid} onClick={this.onChangePaid} />
-        </Form.Field>
-        <Button type="submit" onClick={this.onSubmit}>
-          Submit
-        </Button>
-      </Form>
-    );
+    const content = this.renderForm();
+    return <div className="new-record-container">{content}</div>;
   }
 }
 
-const NewRecordForm = connect(
-  null,
-  mapDispatchToProps
-)(ConnectedForm);
+const NewRecordForm = connect(null, { recordCreate, recordList })(ConnectedForm);
 
 export default NewRecordForm;

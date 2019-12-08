@@ -29,10 +29,6 @@ function recordsList(req, res) {
 router.get(`${apiBase}/records`, recordsList);
 
 function recordCreate(req, res) {
-  console.log('==================');
-  console.log('req: ',req);
-  console.log('req.body: ',req.body);
-  console.log('req.body.data: ',req.body.data);
   const record = req.body.data;
   records.push(record);
   res.json({data: record.id});

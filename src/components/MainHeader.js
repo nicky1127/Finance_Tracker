@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import { Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { changePayer } from '../redux/actions/action-creator';
 
-export default class MainHeader extends Component {
-  constructor() {
-    super();
+class ConnectedMainHeader extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       activeItem: null
     };
   }
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  handleItemClick = evt => {
+    this.props.changePayer(evt.target.name);
+    this.setState({ activeItem: evt.target.name });
+  };
 
   render() {
     const { activeItem } = this.state;
@@ -18,8 +23,10 @@ export default class MainHeader extends Component {
     return (
       <Menu>
         <Menu.Item>Finance Recoder</Menu.Item>
-        <Menu.Item name="nina" active={activeItem === 'nina'} onClick={this.handleItemClick}>
-          <Link to="/">Nina</Link>
+        <Menu.Item active={activeItem === 'nina'}>
+          <Link to="/" name="nina" onClick={this.handleItemClick}>
+            Nina
+          </Link>
         </Menu.Item>
 
         <Menu.Item
@@ -33,3 +40,10 @@ export default class MainHeader extends Component {
     );
   }
 }
+
+const MainHeader = connect(
+  null,
+  { changePayer }
+)(ConnectedMainHeader);
+
+export default MainHeader;

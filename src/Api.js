@@ -33,7 +33,7 @@ class Api {
     }
   }
 
-  async _post(url, data={}) {
+  async _post(url, data = {}) {
     try {
       const response = await this.http.post(url, data);
       return response.data;
@@ -41,7 +41,7 @@ class Api {
       throw err;
     }
   }
-  
+
   async recordList(params = {}) {
     const response = await this._get(this.uriRecords, params);
     let data = response && 'data' in response ? response.data : [];
@@ -53,7 +53,7 @@ class Api {
 
   async recordCreate(data) {
     console.log('data in api : ', data);
-    const response = await this._post(this.uriRecords, { data});
+    const response = await this._post(this.uriRecords, { data });
     let recordId = response && 'data' in response ? response.data : null;
     return recordId;
   }

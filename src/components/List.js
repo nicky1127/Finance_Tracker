@@ -43,7 +43,6 @@ class ConnectedList extends Component {
   };
 
   closeRecordCreateModal = () => {
-    this.loadRecords();
     this.setState({ openModalRecordCreate: false });
   };
 
