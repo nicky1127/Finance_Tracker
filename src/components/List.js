@@ -8,7 +8,7 @@ import RecordTableRow from './RecordTableRow';
 
 const mapStateToProps = state => {
   if (state) {
-    return { records: state.records };
+    return { records: state.records, payer: state.payer };
   }
   return { records: [] };
 };
@@ -29,7 +29,8 @@ class ConnectedList extends Component {
   }
 
   loadRecords() {
-    this.props.recordList();
+    const { payer } = this.props;
+    this.props.recordList(payer);
   }
 
   openRecordCreateModal = () => {
@@ -95,6 +96,7 @@ class ConnectedList extends Component {
 
   render() {
     const { stage, openModalRecordCreate, openModalRecordDelete } = this.state;
+    const { payer } = this.props;
 
     const content = stage === 'ready' ? this.renderTable() : 'Loading';
     return (
@@ -107,7 +109,7 @@ class ConnectedList extends Component {
           onClose={this.closeRecordCreateModal}
         >
           <div className="col-md-8 offset-md-2">
-            <NewRecordForm closeRecordCreateModal={this.closeRecordCreateModal} />
+            <NewRecordForm payer={payer} closeRecordCreateModal={this.closeRecordCreateModal} />
           </div>
         </Modal>
         <Modal

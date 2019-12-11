@@ -1,6 +1,7 @@
 [
     {
         "id": 0,
+        "payer": "nina",
         "title": "Train to Wakefield",
         "date": "2019/10/13",
         "price": 30,
@@ -8,6 +9,7 @@
     },
     {
         "id": 1,
+        "payer": "jessi",
         "title": "Blue Lagoon",
         "date": "2019/10/14",
         "price": 75,
@@ -15,6 +17,7 @@
     },
     {
         "id": 2,
+        "payer": "bronk",
         "title": "Train to Manchester",
         "date": "2019/10/15",
         "price": 40,
@@ -22,6 +25,7 @@
     },
     {
         "id": 3,
+        "payer": "nina",
         "title": "Dinner in Leeds",
         "date": "2019/10/15",
         "price": 10,

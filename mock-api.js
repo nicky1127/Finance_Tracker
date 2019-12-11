@@ -22,11 +22,12 @@ function log() {
 //Records
 let records = require('./mock/api/records');
 
-function recordsList(req, res) {
-  const recordsObj = [...records];
+function recordsListByPayer(req, res) {
+  const { payer } = req.query;
+  const recordsObj = [...records].filter(record=>record.payer===payer);
   res.json({ data: recordsObj });
 }
-router.get(`${apiBase}/records`, recordsList);
+router.get(`${apiBase}/records`, recordsListByPayer);
 
 function recordCreate(req, res) {
   const record = req.body.data;

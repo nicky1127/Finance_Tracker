@@ -50,10 +50,11 @@ class ConnectedForm extends Component {
     event.preventDefault();
     const { closeRecordCreateModal, recordCreate, recordList } = this.props;
     const { title, date, price, isPaid } = this.state;
+    const { payer } = this.props;
     const id = uuidv1();
     // this.props.addRecord({ id, title, date, price, isPaid });
     try {
-      await recordCreate({ id, title, date, price, isPaid }).then(() => recordList());
+      await recordCreate({ id, title, date, price, isPaid, payer }).then(() => recordList());
       closeRecordCreateModal();
     } catch (err) {
       console.log('err', err);

@@ -15,9 +15,9 @@ export const changePayer = payload => {
 const config = { baseURL: '/api' };
 const http = axios.create(config);
 
-export const recordList = () => {
+export const recordList = payer => {
   return async dispatch => {
-    return await http.get('/records').then(response => {
+    return await http.get('/records', { params: { payer } }).then(response => {
       dispatch({ type: RECORDS_DATA_LOADED, payload: response ? response.data.data : [] });
     });
   };
