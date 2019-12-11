@@ -6,10 +6,10 @@ export const addRecord = payload => {
   return obj;
 };
 
-export const changePayer = payload => {
-  const obj = { type: CHANGE_PAYER, payload };
-  return obj;
-};
+// export const changePayer = payload => {
+//   const obj = { type: CHANGE_PAYER, payload };
+//   return obj;
+// };
 
 //APIs actions
 const config = { baseURL: '/api' };

@@ -18,6 +18,7 @@ class ConnectedList extends Component {
     super(props);
     this.state = {
       stage: 'loading',
+      payer: props.match.params.payer,
       openModalRecordCreate: false,
       openModalRecordDelete: false
     };
@@ -29,7 +30,8 @@ class ConnectedList extends Component {
   }
 
   loadRecords() {
-    const { payer } = this.props;
+    const { payer } = this.state;
+    console.log('payer in List', payer);
     this.props.recordList(payer);
   }
 

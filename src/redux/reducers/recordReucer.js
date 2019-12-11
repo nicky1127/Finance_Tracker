@@ -1,4 +1,4 @@
-import { ADD_RECORD, RECORDS_DATA_LOADED, CHANGE_PAYER } from '../constants/action-type';
+import { ADD_RECORD, RECORDS_DATA_LOADED } from '../constants/action-type';
 
 const initialState = {
     records: [],
@@ -12,9 +12,6 @@ const recordReducer = ( state = initialState, action ) => {
                 records: state.records.concat(action.payload)
             }
         );
-    }
-    if (action.type === CHANGE_PAYER){
-        return {...state, payer: action.payload};
     }
     if(action.type === RECORDS_DATA_LOADED){
         return Object.assign({}, state, {

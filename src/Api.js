@@ -52,7 +52,6 @@ class Api {
   }
 
   async recordCreate(data) {
-    console.log('data in api : ', data);
     const response = await this._post(this.uriRecords, { data });
     let recordId = response && 'data' in response ? response.data : null;
     return recordId;
