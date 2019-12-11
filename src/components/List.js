@@ -62,31 +62,33 @@ class ConnectedList extends Component {
 
   renderTable() {
     return (
-      <div>
+      <div className="record-list-container">
         <Grid>
           <Grid.Row>
-            <Grid.Column width={5}>
+            <Grid.Column width={14}>
               <h2>Records</h2>
             </Grid.Column>
-            <Grid.Column floated="right">
+            <Grid.Column>
               <Button primary content="New Record" onClick={this.openRecordCreateModal} />
             </Grid.Column>
           </Grid.Row>
+
+          <Grid.Row>
+            <Table celled>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell width="5">Title</Table.HeaderCell>
+                  <Table.HeaderCell width="2">Date</Table.HeaderCell>
+                  <Table.HeaderCell width="2">Price</Table.HeaderCell>
+                  <Table.HeaderCell width="2">Paid</Table.HeaderCell>
+                  <Table.HeaderCell width="2">Action</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+
+              <Table.Body>{this.renderRecordtableRows()}</Table.Body>
+            </Table>
+          </Grid.Row>
         </Grid>
-
-        <Table celled>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell width="5">Title</Table.HeaderCell>
-              <Table.HeaderCell width="2">Date</Table.HeaderCell>
-              <Table.HeaderCell width="2">Price</Table.HeaderCell>
-              <Table.HeaderCell width="2">Paid</Table.HeaderCell>
-              <Table.HeaderCell width="3">Action</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-
-          <Table.Body>{this.renderRecordtableRows()}</Table.Body>
-        </Table>
       </div>
     );
   }
@@ -97,13 +99,23 @@ class ConnectedList extends Component {
     const content = stage === 'ready' ? this.renderTable() : 'Loading';
     return (
       <div>
-        <div className="col-md-10 offset-md-1">{content}</div>
-        <Modal className='modal record-create-modal' open={openModalRecordCreate} size="tiny" onClose={this.closeRecordCreateModal}>
+        {content}
+        <Modal
+          className="modal record-create-modal"
+          open={openModalRecordCreate}
+          size="tiny"
+          onClose={this.closeRecordCreateModal}
+        >
           <div className="col-md-8 offset-md-2">
             <NewRecordForm closeRecordCreateModal={this.closeRecordCreateModal} />
           </div>
         </Modal>
-        <Modal className='longer record-delete-modal' open={openModalRecordDelete} size="tiny" onClose={this.closeRecordDeleteModal}>
+        <Modal
+          className="longer record-delete-modal"
+          open={openModalRecordDelete}
+          size="tiny"
+          onClose={this.closeRecordDeleteModal}
+        >
           <Modal.Header>Delete Record</Modal.Header>
           <Modal.Content>
             <div className="col-md-8 offset-md-2">

@@ -12,8 +12,13 @@ code {
     monospace;
 }
 
+.record-list-container{
+  margin: 10px 50px;
+}
+
 .new-record-container {
-  padding-top:40px;
+  padding:50px 30px;
+  
 }
 .new-record-form {
   padding-top:20px;
