@@ -8,8 +8,6 @@ const App = () => (
     <div>
       <MainHeader />
       <Switch>
-        {/* <Route path="/payer/jessi" component={List} />
-        <Route path="/payer/bronk" component={MainHeader} /> */}
         <Route path="/payer/:payer" component={HOCList} />
       </Switch>
     </div>

@@ -20,29 +20,19 @@ class ConnectedForm extends Component {
     };
   }
 
-  // changeField = (name, value) => {
-  //     const { record } = this.state;
-  //     record[name] = value;
-  //     this.setState({record});
-  // }
-
   onChangeTitle = evt => {
-    // this.changeField(evt.target.id, evt.target.value);
     this.setState({ [evt.target.id]: evt.target.value });
   };
 
   onChangeDate = evt => {
-    // this.changeField(evt.target.id, evt.target.value);
     this.setState({ [evt.target.id]: evt.target.value });
   };
 
   onChangePrice = evt => {
-    // this.changeField(evt.target.id, evt.target.value);
     this.setState({ [evt.target.id]: evt.target.value });
   };
 
   onChangePaid = evt => {
-    // this.changeField(evt.target.id, evt.target.checked);
     this.setState({ [evt.target.id]: evt.target.checked });
   };
 
@@ -52,9 +42,8 @@ class ConnectedForm extends Component {
     const { title, date, price, isPaid } = this.state;
     const { payer } = this.props;
     const id = uuidv1();
-    // this.props.addRecord({ id, title, date, price, isPaid });
     try {
-      await recordCreate({ id, title, date, price, isPaid, payer }).then(() => recordList());
+      await recordCreate({ id, title, date, price, isPaid, payer }).then(() => recordList(payer));
       closeRecordCreateModal();
     } catch (err) {
       console.log('err', err);

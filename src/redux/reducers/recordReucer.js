@@ -1,8 +1,7 @@
 import { ADD_RECORD, RECORDS_DATA_LOADED } from '../constants/action-type';
 
 const initialState = {
-    records: [],
-    payer: 'nina'
+    records: []
 };
 
 const recordReducer = ( state = initialState, action ) => {
