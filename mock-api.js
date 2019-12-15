@@ -36,6 +36,17 @@ function recordCreate(req, res) {
 }
 router.post(`${apiBase}/records`, recordCreate);
 
+function recordUpdate(req, res) {
+  const recordObj = req.body.data;
+  const idx = records.findIndex(record=>record.id.toString()===recordObj.id.toString());
+  records[idx].title = recordObj.title;
+  records[idx].date = recordObj.date;
+  records[idx].price = recordObj.price;
+  records[idx].isPaid = recordObj.isPaid;
+  res.json({ data: records[idx].id  });
+}
+router.patch(`${apiBase}/records/:recordId`, recordUpdate);
+
 function recordDelete(req, res) {
   const { recordId } = req.params;
   records = [...records].filter(record => record.id.toString() !== recordId.toString());

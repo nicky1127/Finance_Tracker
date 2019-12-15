@@ -4,6 +4,7 @@ import { Table, Modal, Grid, Button } from 'semantic-ui-react';
 import { recordList, recordDelete } from '../redux/actions/action-creator';
 
 import NewRecordForm from './NewRecordForm';
+import EditRecordForm from './EditRecordForm';
 import RecordTableRow from './RecordTableRow';
 
 const mapStateToProps = state => {
@@ -20,8 +21,10 @@ class ConnectedList extends Component {
       stage: 'loading',
       payer: props.match.params.payer,
       openModalRecordCreate: false,
+      openModalRecordEdit: false,
       openModalRecordDelete: false,
-      recordToDelete: null
+      recordToDelete: null,
+      recordToEdit: null
     };
   }
 
@@ -43,6 +46,14 @@ class ConnectedList extends Component {
     this.setState({ openModalRecordCreate: false });
   };
 
+  openRecordEditModal = record => {
+    this.setState({ openModalRecordEdit: true, recordToEdit: record });
+  };
+
+  closeRecordEditModal = () => {
+    this.setState({ openModalRecordEdit: false, recordToEdit: null });
+  };
+
   openRecordDeleteModal = recordId => {
     this.setState({ openModalRecordDelete: true, recordToDelete: recordId });
   };
@@ -56,7 +67,7 @@ class ConnectedList extends Component {
     const { recordDelete, recordList } = this.props;
     if (recordToDelete) {
       try {
-        const response = await recordDelete({ recordId: recordToDelete }).then(() =>
+        await recordDelete({ recordId: recordToDelete }).then(() =>
           recordList(payer)
         );
       } catch (err) {
@@ -74,6 +85,8 @@ class ConnectedList extends Component {
         record={record}
         openRecordDeleteModal={this.openRecordDeleteModal}
         closeRecordDeleteModal={this.closeRecordDeleteModal}
+        openRecordEditModal={this.openRecordEditModal}
+        closeRecordEditModal={this.closeRecordEditModal}
       />
     ));
   }
@@ -115,9 +128,10 @@ class ConnectedList extends Component {
     const {
       payer,
       stage,
+      recordToEdit,
       openModalRecordCreate,
-      openModalRecordDelete,
-      recordToDelete
+      openModalRecordEdit,
+      openModalRecordDelete
     } = this.state;
     const content = stage === 'ready' ? this.renderTable() : 'Loading';
     return (
@@ -129,8 +143,18 @@ class ConnectedList extends Component {
           size="tiny"
           onClose={this.closeRecordCreateModal}
         >
-          <div className="col-md-8 offset-md-2">
+          <div>
             <NewRecordForm payer={payer} closeRecordCreateModal={this.closeRecordCreateModal} />
+          </div>
+        </Modal>
+        <Modal
+          className="modal record-edit-modal"
+          open={openModalRecordEdit}
+          size="tiny"
+          onClose={this.closeRecordEditModal}
+        >
+          <div>
+            <EditRecordForm record={recordToEdit} closeRecordEditModal={this.closeRecordEditModal} />
           </div>
         </Modal>
         <Modal

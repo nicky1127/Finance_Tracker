@@ -1,4 +1,4 @@
-import { ADD_RECORD, RECORDS_DATA_LOADED, CHANGE_PAYER } from '../constants/action-type';
+import { ADD_RECORD, RECORDS_DATA_LOADED } from '../constants/action-type';
 import axios from 'axios';
 
 export const addRecord = payload => {
@@ -26,8 +26,15 @@ export const recordCreate = (payload = {}) => {
   };
 };
 
+export const recordUpdate = (payload = {}) => {
+  return async dispatch => {
+    await http
+      .patch(`/records/${payload.id}`, { data: payload })
+      .catch(() => console.log('api fails in recordDelete'));
+  };
+};
+
 export const recordDelete = (payload = {}) => {
-  console.log('payload in recordDelete', `/records/${payload.recordId}`);
   return async dispatch => {
     await http
       .delete(`/records/${payload.recordId}`)
