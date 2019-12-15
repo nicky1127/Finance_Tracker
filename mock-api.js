@@ -1,6 +1,6 @@
 const express = require('express');
 const moment = require('moment');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 const router = express.Router();
 const app = express();
@@ -24,7 +24,7 @@ let records = require('./mock/api/records');
 
 function recordsListByPayer(req, res) {
   const { payer } = req.query;
-  const recordsObj = [...records].filter(record=>record.payer===payer);
+  const recordsObj = [...records].filter(record => record.payer === payer);
   res.json({ data: recordsObj });
 }
 router.get(`${apiBase}/records`, recordsListByPayer);
@@ -32,9 +32,16 @@ router.get(`${apiBase}/records`, recordsListByPayer);
 function recordCreate(req, res) {
   const record = req.body.data;
   records.push(record);
-  res.json({data: record.id});
+  res.json({ data: record.id });
 }
 router.post(`${apiBase}/records`, recordCreate);
+
+function recordDelete(req, res) {
+  const { recordId } = req.params;
+  records = [...records].filter(record => record.id.toString() !== recordId.toString());
+  res.json({});
+}
+router.delete(`${apiBase}/records/:recordId`, recordDelete);
 
 //=======================================================
 app.use(router);

@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
-import { Table, Button, Icon, Modal } from 'semantic-ui-react';
+import { Table, Button, Icon} from 'semantic-ui-react';
 
 class RecordTableRow extends Component {
-  buttonsDom = () => (
-    <div>
-      <Button>
-        <Icon name="edit" />
-      </Button>
-      <Button onClick={this.props.openRecordDeleteModal}>
-        <Icon name="trash" />
-      </Button>
-    </div>
-  );
+  buttonsDom = recordId => {
+    const { openRecordDeleteModal }=this.props;
+    return (
+      <div>
+        <Button>
+          <Icon name="edit" />
+        </Button>
+        <Button onClick={()=>openRecordDeleteModal(recordId)}>
+          <Icon name="trash" />
+        </Button>
+      </div>
+    );
+  };
   render() {
     const { record } = this.props;
     return (
@@ -20,7 +23,7 @@ class RecordTableRow extends Component {
         <Table.Cell>{record.date}</Table.Cell>
         <Table.Cell>{record.price}</Table.Cell>
         <Table.Cell>{record.isPaid ? 'Yes' : 'No'}</Table.Cell>
-        <Table.Cell>{this.buttonsDom()}</Table.Cell>
+        <Table.Cell>{this.buttonsDom(record.id)}</Table.Cell>
       </Table.Row>
     );
   }

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table, Modal, Grid, Button } from 'semantic-ui-react';
-import { recordList } from '../redux/actions/action-creator';
+import { recordList, recordDelete } from '../redux/actions/action-creator';
 
 import NewRecordForm from './NewRecordForm';
 import RecordTableRow from './RecordTableRow';
 
 const mapStateToProps = state => {
   if (state) {
-    return { records: state.records};
+    return { records: state.records };
   }
   return { records: [] };
 };
@@ -20,7 +20,8 @@ class ConnectedList extends Component {
       stage: 'loading',
       payer: props.match.params.payer,
       openModalRecordCreate: false,
-      openModalRecordDelete: false
+      openModalRecordDelete: false,
+      recordToDelete: null
     };
   }
 
@@ -42,12 +43,27 @@ class ConnectedList extends Component {
     this.setState({ openModalRecordCreate: false });
   };
 
-  openRecordDeleteModal = () => {
-    this.setState({ openModalRecordDelete: true });
+  openRecordDeleteModal = recordId => {
+    this.setState({ openModalRecordDelete: true, recordToDelete: recordId });
   };
 
   closeRecordDeleteModal = () => {
-    this.setState({ openModalRecordDelete: false });
+    this.setState({ openModalRecordDelete: false, recordToDelete: null });
+  };
+
+  deleteRecord = async () => {
+    const { recordToDelete, payer } = this.state;
+    const { recordDelete, recordList } = this.props;
+    if (recordToDelete) {
+      try {
+        const response = await recordDelete({ recordId: recordToDelete }).then(() =>
+          recordList(payer)
+        );
+      } catch (err) {
+        console.log('err', err);
+      }
+    }
+    this.closeRecordDeleteModal();
   };
 
   renderRecordtableRows() {
@@ -96,8 +112,13 @@ class ConnectedList extends Component {
   }
 
   render() {
-    const { payer, stage, openModalRecordCreate, openModalRecordDelete } = this.state;
-
+    const {
+      payer,
+      stage,
+      openModalRecordCreate,
+      openModalRecordDelete,
+      recordToDelete
+    } = this.state;
     const content = stage === 'ready' ? this.renderTable() : 'Loading';
     return (
       <div>
@@ -125,8 +146,16 @@ class ConnectedList extends Component {
             </div>
           </Modal.Content>
           <Modal.Actions>
-            <Button negative>No</Button>
-            <Button positive icon="checkmark" labelPosition="right" content="Yes" />
+            <Button negative onClick={this.closeRecordDeleteModal}>
+              No
+            </Button>
+            <Button
+              positive
+              icon="checkmark"
+              labelPosition="right"
+              content="Yes"
+              onClick={this.deleteRecord}
+            />
           </Modal.Actions>
         </Modal>
       </div>
@@ -134,7 +163,7 @@ class ConnectedList extends Component {
   }
 }
 
-const List = connect(mapStateToProps, { recordList })(ConnectedList);
+const List = connect(mapStateToProps, { recordList, recordDelete })(ConnectedList);
 
 export default List;
 
