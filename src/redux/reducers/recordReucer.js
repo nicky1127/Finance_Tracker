@@ -1,14 +1,17 @@
 import { ADD_RECORD, RECORDS_DATA_LOADED } from '../constants/action-type';
 
 const initialState = {
-    records: []
+    records: [],
+    recordCreateLoading: false,
+    recordDeleteLoading: false
+
 };
 
 const recordReducer = ( state = initialState, action ) => {
     if (action.type === ADD_RECORD){
         return Object.assign({}, state, 
             {
-                records: state.records.concat(action.payload)
+                recordCreateLoading: true
             }
         );
     }

@@ -1,6 +1,6 @@
 [
     {
-        "id": 0,
+        "id": 1,
         "payer": "nina",
         "title": "Train to Wakefield",
         "date": "2019/10/13",
@@ -8,7 +8,7 @@
         "isPaid": false
     },
     {
-        "id": 1,
+        "id": 2,
         "payer": "jessi",
         "title": "Blue Lagoon",
         "date": "2019/10/14",
@@ -16,7 +16,7 @@
         "isPaid": true
     },
     {
-        "id": 2,
+        "id": 3,
         "payer": "bronk",
         "title": "Train to Manchester",
         "date": "2019/10/15",
@@ -24,7 +24,7 @@
         "isPaid": true
     },
     {
-        "id": 3,
+        "id": 4,
         "payer": "nina",
         "title": "Dinner in Leeds",
         "date": "2019/10/15",
