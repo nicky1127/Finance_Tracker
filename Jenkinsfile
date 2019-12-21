@@ -12,14 +12,15 @@ pipeline {
         sh 'npm install'
       }
     }
-    stage('Deliver') {
-            when {
-                branch 'R1'
-            }
-            steps {
-                input message: 'Finished using the web site? (Click "Proceed" to be happy ending please gogog)'
-            }
-        }
-
+    stage('Deliver for development') {
+              when {
+                  branch 'development'
+              }
+              steps {
+                  sh './jenkins/scripts/deliver-for-development.sh'
+                  input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                  sh './jenkins/scripts/kill.sh'
+              }
+    }
   }
 }
