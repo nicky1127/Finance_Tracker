@@ -13,5 +13,11 @@ pipeline {
       }
     }
 
+  stage('Deliver') {
+            steps {
+                sh './jenkins/scripts/deliver-for-development.sh'
+                sh './jenkins/scripts/kill.sh'
+            }
+
   }
 }
