@@ -17,7 +17,7 @@ pipeline {
                 branch 'R1'
             }
             steps {
-                input message: 'Finished using the web site? (Click "Proceed" to be happy ending please)'
+                input message: 'Finished using the web site? (Click "Proceed" to be happy ending please gogog)'
             }
         }
 
