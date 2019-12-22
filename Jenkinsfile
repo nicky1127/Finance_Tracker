@@ -27,8 +27,7 @@ pipeline {
               steps {
                   sh './jenkins/scripts/deliver-for-development.sh'
                   input message: 'Finished using the web site? (Click "Proceed" to continue please lets go)'
-                  sh './jenkins/scripts/kill.sh'
-                  sh './jenkins/scripts/kill-mock.sh'
+                  
               }
     }
   }
