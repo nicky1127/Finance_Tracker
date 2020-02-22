@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table, Modal, Grid, Button } from 'semantic-ui-react';
-import { loadRecordsByPayer, deleteRecord } from '../redux/actions/action-creator';
+import {
+  loadRecordsByPayer,
+  deleteRecord,
+  openAddRecordModal,
+  closeAddRecordModal
+} from '../redux/actions/action-creator';
 
 import NewRecordForm from './NewRecordForm';
 import EditRecordForm from './EditRecordForm';
@@ -10,7 +15,11 @@ import Loading from './Loading';
 
 const mapStateToProps = state => {
   if (state) {
-    return { records: state.records };
+    return {
+      records: state.records,
+      loading: state.loadRecordsLoading,
+      addRecordModalOpen: state.addRecordModalOpen
+    };
   }
   return { records: [] };
 };
@@ -19,9 +28,8 @@ class ConnectedList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      stage: 'loading',
+      // stage: 'loading',
       payer: props.match.params.payer,
-      openModalRecordCreate: false,
       openModalRecordEdit: false,
       openModalRecordDelete: false,
       recordToDelete: null,
@@ -31,21 +39,13 @@ class ConnectedList extends Component {
 
   componentDidMount() {
     this.loadRecords();
-    this.setState({ stage: 'ready' });
+    // this.setState({ stage: 'ready' });
   }
 
   loadRecords() {
     const { payer } = this.state;
     this.props.loadRecordsByPayer(payer);
   }
-
-  openRecordCreateModal = () => {
-    this.setState({ openModalRecordCreate: true });
-  };
-
-  closeRecordCreateModal = () => {
-    this.setState({ openModalRecordCreate: false });
-  };
 
   openRecordEditModal = record => {
     this.setState({ openModalRecordEdit: true, recordToEdit: record });
@@ -94,15 +94,16 @@ class ConnectedList extends Component {
   }
 
   renderTable() {
+    const { openAddRecordModal } = this.props;
     return (
-      <div  className="record-list-table">
+      <div className="record-list-table">
         <Grid>
           <Grid.Row>
             <Grid.Column width={14}>
               <h2>Records</h2>
             </Grid.Column>
             <Grid.Column>
-              <Button primary content="New Record" onClick={this.openRecordCreateModal} />
+              <Button primary content="New Record" onClick={openAddRecordModal} />
             </Grid.Column>
           </Grid.Row>
 
@@ -126,26 +127,20 @@ class ConnectedList extends Component {
     );
   }
 
-  renderLoading = ()=> <Loading/>;
+  renderLoading = () => <Loading msg="We are fetching that content for you." />;
 
   render() {
-    const {
-      payer,
-      stage,
-      recordToEdit,
-      openModalRecordCreate,
-      openModalRecordEdit,
-      openModalRecordDelete
-    } = this.state;
-    const content = stage === 'ready' ? this.renderTable() : this.renderLoading();
+    const { loading, addRecordModalOpen, closeAddRecordModal } = this.props;
+    const { payer, recordToEdit, openModalRecordEdit, openModalRecordDelete } = this.state;
+    const content = loading ? this.renderLoading() : this.renderTable();
     return (
-      <div  className="record-list-container">
+      <div className="record-list-container">
         {content}
         <Modal
           className="modal record-create-modal"
-          open={openModalRecordCreate}
+          open={addRecordModalOpen}
           size="tiny"
-          onClose={this.closeRecordCreateModal}
+          onClose={closeAddRecordModal}
         >
           <div>
             <NewRecordForm payer={payer} closeRecordCreateModal={this.closeRecordCreateModal} />
@@ -194,8 +189,11 @@ class ConnectedList extends Component {
   }
 }
 
-const List = connect(mapStateToProps, { loadRecordsByPayer, deleteRecord })(
-  ConnectedList
-);
+const List = connect(mapStateToProps, {
+  loadRecordsByPayer,
+  deleteRecord,
+  openAddRecordModal,
+  closeAddRecordModal
+})(ConnectedList);
 
 export default List;

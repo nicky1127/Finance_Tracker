@@ -25,6 +25,7 @@ let records = require('./mock/api/records');
 function recordsListByPayer(req, res) {
   const { payer } = req.query;
   const recordsObj = [...records].filter(record => record.payer === payer);
+  // setTimeout(()=>res.json({ data: recordsObj }), 1000);
   res.json({ data: recordsObj });
 }
 router.get(`${apiBase}/records`, recordsListByPayer);
@@ -32,18 +33,19 @@ router.get(`${apiBase}/records`, recordsListByPayer);
 function recordCreate(req, res) {
   const record = req.body.data;
   records.push(record);
-  res.json({ data: record.id });
+  setTimeout(() => res.json({ data: record.id }), 2000);
+  // res.json({ data: record.id });
 }
 router.post(`${apiBase}/records`, recordCreate);
 
 function recordUpdate(req, res) {
   const recordObj = req.body.data;
-  const idx = records.findIndex(record=>record.id.toString()===recordObj.id.toString());
+  const idx = records.findIndex(record => record.id.toString() === recordObj.id.toString());
   records[idx].title = recordObj.title;
   records[idx].date = recordObj.date;
   records[idx].price = recordObj.price;
   records[idx].isPaid = recordObj.isPaid;
-  res.json({ data: records[idx].id  });
+  res.json({ data: records[idx].id });
 }
 router.patch(`${apiBase}/records/:recordId`, recordUpdate);
 

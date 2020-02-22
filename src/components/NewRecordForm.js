@@ -4,6 +4,16 @@ import { Form, Checkbox, Button } from 'semantic-ui-react';
 import uuidv1 from 'uuid';
 import { loadRecordsByPayer, addRecord } from '../redux/actions/action-creator';
 
+import Loading from './Loading';
+
+const mapStateToProps = state => {
+  if (state) {
+    return {
+      loading: state.addRecordLoading,
+    };
+  }
+};
+
 
 class ConnectedForm extends Component {
   constructor() {
@@ -35,7 +45,6 @@ class ConnectedForm extends Component {
   onSubmit = async event => {
     event.preventDefault();
     const {
-      closeRecordCreateModal,
       addRecord,
       loadRecordsByPayer
     } = this.props;
@@ -44,7 +53,6 @@ class ConnectedForm extends Component {
     const id = uuidv1();
     try {
       addRecord({ id, title, date, price, isPaid, payer }).then(() => loadRecordsByPayer(payer));
-      closeRecordCreateModal();
     } catch (err) {
       console.log('err', err);
     }
@@ -77,12 +85,15 @@ class ConnectedForm extends Component {
     );
   };
 
+  renderSaving = () => <Loading msg='We are saving the record for you.'/>;
+
   render() {
-    const content = this.renderForm();
+    const {loading} = this.props;
+    const content = loading? this.renderSaving() :this.renderForm();
     return <div className="new-record-container">{content}</div>;
   }
 }
 
-const NewRecordForm = connect(null, { loadRecordsByPayer, addRecord })(ConnectedForm);
+const NewRecordForm = connect(mapStateToProps, { loadRecordsByPayer, addRecord })(ConnectedForm);
 
 export default NewRecordForm;

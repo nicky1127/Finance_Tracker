@@ -9,8 +9,10 @@ const initialState = {
   deleteRecordLoading: false,
   deleteRecordError: '',
   error: false,
-  recordCreateLoading: false,
-  recordDeleteLoading: false
+
+  addRecordModalOpen: false
+  // recordCreateLoading: false,
+  // recordDeleteLoading: false
 };
 
 const recordReducer = (state = initialState, action) => {
@@ -24,7 +26,7 @@ const recordReducer = (state = initialState, action) => {
   //     records: action.payload
   //   });
   // }
-// new middleare ones
+  // new middleare ones
   if (action.type === types.LOAD_RECORDS_REQUEST) {
     return Object.assign({}, state, {
       loadRecordsLoading: true
@@ -54,7 +56,8 @@ const recordReducer = (state = initialState, action) => {
 
   if (action.type === types.ADD_RECORD_SUCCESS) {
     return Object.assign({}, state, {
-      addRecordLoading: false
+      addRecordLoading: false,
+      addRecordModalOpen: false
     });
   }
 
@@ -83,6 +86,19 @@ const recordReducer = (state = initialState, action) => {
       deleteRecordLoading: false,
       deleteRecordError: action.payload,
       error: action.error
+    });
+  }
+
+  //Modal
+  if (action.type === types.OPEN_ADD_RECORD_MODAL) {
+    return Object.assign({}, state, {
+      addRecordModalOpen: true
+    });
+  }
+
+  if (action.type === types.CLOSE_ADD_RECORD_MODAL) {
+    return Object.assign({}, state, {
+      addRecordModalOpen: false
     });
   }
 

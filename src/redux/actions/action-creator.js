@@ -1,11 +1,9 @@
 import * as types from '../constants/action-type';
 import axios from 'axios';
 
-
 //APIs actions
 const config = { baseURL: '/api' };
 const http = axios.create(config);
-
 
 /**
  * @param {string} payer
@@ -44,8 +42,7 @@ export const addRecord = (record = {}) => {
   return async dispatch => {
     dispatch(addRecordRequest());
 
-    return await http
-    .post('/records', { data: record }).then(
+    return await http.post('/records', { data: record }).then(
       response => {
         dispatch(addRecordSuccess());
       },
@@ -59,7 +56,7 @@ export const addRecord = (record = {}) => {
 export const addRecordRequest = () => ({ type: types.ADD_RECORD_REQUEST });
 
 export const addRecordSuccess = () => {
-  return { type: types.ADD_RECORD_SUCCESS};
+  return { type: types.ADD_RECORD_SUCCESS };
 };
 
 export const addRecordFailure = err => ({
@@ -75,8 +72,7 @@ export const updateRecord = (record = {}) => {
   return async dispatch => {
     dispatch(updateRecordRequest());
 
-    return await http
-    .patch(`/records/${record.id}`, { data: record }).then(
+    return await http.patch(`/records/${record.id}`, { data: record }).then(
       response => {
         dispatch(updateRecordSuccess());
       },
@@ -90,7 +86,7 @@ export const updateRecord = (record = {}) => {
 export const updateRecordRequest = () => ({ type: types.ADD_RECORD_REQUEST });
 
 export const updateRecordSuccess = () => {
-  return { type: types.ADD_RECORD_SUCCESS};
+  return { type: types.ADD_RECORD_SUCCESS };
 };
 
 export const updateRecordFailure = err => ({
@@ -106,8 +102,7 @@ export const deleteRecord = (record = {}) => {
   return async dispatch => {
     dispatch(deleteRecordRequest());
 
-    return await http
-    .delete(`/records/${record.recordId}`).then(
+    return await http.delete(`/records/${record.recordId}`).then(
       response => {
         dispatch(deleteRecordSuccess());
       },
@@ -121,7 +116,7 @@ export const deleteRecord = (record = {}) => {
 export const deleteRecordRequest = () => ({ type: types.DELETE_RECORD_REQUEST });
 
 export const deleteRecordSuccess = () => {
-  return { type: types.DELETE_RECORD_SUCCESS};
+  return { type: types.DELETE_RECORD_SUCCESS };
 };
 
 export const deleteRecordFailure = err => ({
@@ -130,4 +125,12 @@ export const deleteRecordFailure = err => ({
   error: true
 });
 
+//Modal
 
+export const openAddRecordModal = () => ({
+  type: types.OPEN_ADD_RECORD_MODAL
+});
+
+export const closeAddRecordModal = () => ({
+  type: types.CLOSE_ADD_RECORD_MODAL
+});
