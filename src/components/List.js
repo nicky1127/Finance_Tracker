@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table, Modal, Grid, Button } from 'semantic-ui-react';
-import { recordList, recordDelete, loadRecordsByPayer,deleteRecord } from '../redux/actions/action-creator';
+import { loadRecordsByPayer, deleteRecord } from '../redux/actions/action-creator';
 
 import NewRecordForm from './NewRecordForm';
 import EditRecordForm from './EditRecordForm';
 import RecordTableRow from './RecordTableRow';
+import Loading from './Loading';
 
 const mapStateToProps = state => {
   if (state) {
@@ -35,8 +36,6 @@ class ConnectedList extends Component {
 
   loadRecords() {
     const { payer } = this.state;
-    console.log('payer',payer);
-    // this.props.recordList(payer);
     this.props.loadRecordsByPayer(payer);
   }
 
@@ -66,10 +65,9 @@ class ConnectedList extends Component {
 
   deleteRecord = async () => {
     const { recordToDelete, payer } = this.state;
-    const { recordDelete, recordList, deleteRecord, loadRecordsByPayer } = this.props;
+    const { deleteRecord, loadRecordsByPayer } = this.props;
     if (recordToDelete) {
       try {
-        // await recordDelete({ recordId: recordToDelete }).then(() => recordList(payer));
         deleteRecord({ recordId: recordToDelete }).then(() => loadRecordsByPayer(payer));
       } catch (err) {
         console.log('err', err);
@@ -97,7 +95,7 @@ class ConnectedList extends Component {
 
   renderTable() {
     return (
-      <div className="record-list-container">
+      <div  className="record-list-table">
         <Grid>
           <Grid.Row>
             <Grid.Column width={14}>
@@ -128,6 +126,8 @@ class ConnectedList extends Component {
     );
   }
 
+  renderLoading = ()=> <Loading/>;
+
   render() {
     const {
       payer,
@@ -137,9 +137,9 @@ class ConnectedList extends Component {
       openModalRecordEdit,
       openModalRecordDelete
     } = this.state;
-    const content = stage === 'ready' ? this.renderTable() : 'Loading';
+    const content = stage === 'ready' ? this.renderTable() : this.renderLoading();
     return (
-      <div>
+      <div  className="record-list-container">
         {content}
         <Modal
           className="modal record-create-modal"
@@ -194,79 +194,8 @@ class ConnectedList extends Component {
   }
 }
 
-const List = connect(mapStateToProps, { recordList, recordDelete, loadRecordsByPayer,deleteRecord })(
+const List = connect(mapStateToProps, { loadRecordsByPayer, deleteRecord })(
   ConnectedList
 );
 
 export default List;
-
-//use api.js to make request to backend
-
-// import React, { Component } from 'react';
-// import { connect } from 'react-redux';
-// import { Table } from 'semantic-ui-react';
-// import api from '../Api';
-
-// const mapStateToProps = state => {
-//   if (state) {
-//     return { records: state.records };
-//   }
-//   return { records: [] };
-// };
-
-// const RecordTableRow = ({ record }) => (
-//   <Table.Row>
-//     <Table.Cell>{record.title}</Table.Cell>
-//     <Table.Cell>{record.date}</Table.Cell>
-//     <Table.Cell>{record.price}</Table.Cell>
-//     <Table.Cell>{record.isPaid ? 'Yes' : 'No'}</Table.Cell>
-//   </Table.Row>
-// );
-
-// class ConnectedList extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       records: []
-//     };
-//   }
-
-//   componentDidMount() {
-//     setTimeout(async () => {
-//       await this.loadRecords();
-//     }, 100);
-//   }
-
-//   async loadRecords() {
-//     const records = await api.recordList();
-//     console.log('records in loadRecords: ', records);
-//     this.setState({ records });
-//   }
-
-//   renderRecordtableRows = records =>
-//     records.map(record => <RecordTableRow key={record.id} record={record} />);
-
-//   render() {
-//     const { records } = this.state;
-//     return (
-//       <div>
-//         <Table celled>
-//           <Table.Header>
-//             <Table.Row>
-//               <Table.HeaderCell>Title</Table.HeaderCell>
-//               <Table.HeaderCell>Date</Table.HeaderCell>
-//               <Table.HeaderCell>Price</Table.HeaderCell>
-//               <Table.HeaderCell>Paid</Table.HeaderCell>
-//             </Table.Row>
-//           </Table.Header>
-
-//           <Table.Body>{this.renderRecordtableRows(records)}</Table.Body>
-//         </Table>
-//       </div>
-//     );
-//   }
-// }
-
-// const List = connect(mapStateToProps)(ConnectedList);
-
-// export default List;

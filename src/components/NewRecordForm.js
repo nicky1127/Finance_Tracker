@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Checkbox, Button } from 'semantic-ui-react';
 import uuidv1 from 'uuid';
-import { recordCreate, loadRecordsByPayer, recordList,addRecord } from '../redux/actions/action-creator';
+import { loadRecordsByPayer, addRecord } from '../redux/actions/action-creator';
 
-// const mapDispatchToProps = dispatch => ({
-//   recordCreate: record => dispatch(recordCreate(record)),
-//   recordList: () => dispatch(recordList())
-// });
 
 class ConnectedForm extends Component {
   constructor() {
@@ -38,12 +34,15 @@ class ConnectedForm extends Component {
 
   onSubmit = async event => {
     event.preventDefault();
-    const { closeRecordCreateModal, recordCreate, recordList, addRecord,loadRecordsByPayer } = this.props;
+    const {
+      closeRecordCreateModal,
+      addRecord,
+      loadRecordsByPayer
+    } = this.props;
     const { title, date, price, isPaid } = this.state;
     const { payer } = this.props;
     const id = uuidv1();
     try {
-      // await recordCreate({ id, title, date, price, isPaid, payer }).then(() => recordList(payer));
       addRecord({ id, title, date, price, isPaid, payer }).then(() => loadRecordsByPayer(payer));
       closeRecordCreateModal();
     } catch (err) {
@@ -84,6 +83,6 @@ class ConnectedForm extends Component {
   }
 }
 
-const NewRecordForm = connect(null, { recordCreate, loadRecordsByPayer, recordList, addRecord })(ConnectedForm);
+const NewRecordForm = connect(null, { loadRecordsByPayer, addRecord })(ConnectedForm);
 
 export default NewRecordForm;

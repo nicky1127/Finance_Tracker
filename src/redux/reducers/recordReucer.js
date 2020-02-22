@@ -14,16 +14,16 @@ const initialState = {
 };
 
 const recordReducer = (state = initialState, action) => {
-  if (action.type === types.ADD_RECORD) {
-    return Object.assign({}, state, {
-      recordCreateLoading: true
-    });
-  }
-  if (action.type === types.RECORDS_DATA_LOADED) {
-    return Object.assign({}, state, {
-      records: action.payload
-    });
-  }
+  // if (action.type === types.ADD_RECORD) {
+  //   return Object.assign({}, state, {
+  //     recordCreateLoading: true
+  //   });
+  // }
+  // if (action.type === types.RECORDS_DATA_LOADED) {
+  //   return Object.assign({}, state, {
+  //     records: action.payload
+  //   });
+  // }
 // new middleare ones
   if (action.type === types.LOAD_RECORDS_REQUEST) {
     return Object.assign({}, state, {

@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Checkbox, Button } from 'semantic-ui-react';
-import {
-  recordUpdate,
-  recordList,
-  updateRecord,
-  loadRecordsByPayer
-} from '../redux/actions/action-creator';
+import { updateRecord, loadRecordsByPayer } from '../redux/actions/action-creator';
 
 class ConnectedForm extends Component {
   constructor(props) {
@@ -40,17 +35,12 @@ class ConnectedForm extends Component {
     event.preventDefault();
     const {
       closeRecordEditModal,
-      recordUpdate,
-      recordList,
       updateRecord,
       loadRecordsByPayer,
       record
     } = this.props;
     const { title, date, price, isPaid, payer } = this.state;
     try {
-      // await recordUpdate({ id: record.id, title, date, price, isPaid, payer }).then(() =>
-      //   recordList(payer)
-      // );
 
       updateRecord({ id: record.id, title, date, price, isPaid, payer }).then(() =>
         loadRecordsByPayer(payer)
@@ -94,8 +84,6 @@ class ConnectedForm extends Component {
   }
 }
 
-const NewRecordForm = connect(null, { recordUpdate, recordList, loadRecordsByPayer, updateRecord })(
-  ConnectedForm
-);
+const NewRecordForm = connect(null, { loadRecordsByPayer, updateRecord })(ConnectedForm);
 
 export default NewRecordForm;
