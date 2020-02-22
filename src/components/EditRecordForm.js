@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Checkbox, Button } from 'semantic-ui-react';
-import { recordUpdate, recordList } from '../redux/actions/action-creator';
+import {
+  recordUpdate,
+  recordList,
+  updateRecord,
+  loadRecordsByPayer
+} from '../redux/actions/action-creator';
 
 class ConnectedForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       title: props.record.title,
-      date:props.record.date,
+      date: props.record.date,
       price: props.record.price,
       isPaid: props.record.isPaid,
       payer: props.record.payer
@@ -33,10 +38,23 @@ class ConnectedForm extends Component {
 
   onSubmit = async event => {
     event.preventDefault();
-    const { closeRecordEditModal, recordUpdate, recordList, record } = this.props;
+    const {
+      closeRecordEditModal,
+      recordUpdate,
+      recordList,
+      updateRecord,
+      loadRecordsByPayer,
+      record
+    } = this.props;
     const { title, date, price, isPaid, payer } = this.state;
     try {
-      await recordUpdate({ id:record.id, title, date, price, isPaid, payer }).then(() => recordList(payer));
+      // await recordUpdate({ id: record.id, title, date, price, isPaid, payer }).then(() =>
+      //   recordList(payer)
+      // );
+
+      updateRecord({ id: record.id, title, date, price, isPaid, payer }).then(() =>
+        loadRecordsByPayer(payer)
+      );
       closeRecordEditModal();
     } catch (err) {
       console.log('err', err);
@@ -76,6 +94,8 @@ class ConnectedForm extends Component {
   }
 }
 
-const NewRecordForm = connect(null, { recordUpdate, recordList })(ConnectedForm);
+const NewRecordForm = connect(null, { recordUpdate, recordList, loadRecordsByPayer, updateRecord })(
+  ConnectedForm
+);
 
 export default NewRecordForm;

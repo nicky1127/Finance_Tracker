@@ -83,6 +83,37 @@ export const addRecordFailure = err => ({
 /**
  * @param {object} record
  */
+export const updateRecord = (record = {}) => {
+  return async dispatch => {
+    dispatch(updateRecordRequest());
+
+    return await http
+    .patch(`/records/${record.id}`, { data: record }).then(
+      response => {
+        dispatch(updateRecordSuccess());
+      },
+      err => {
+        dispatch(updateRecordFailure(err));
+      }
+    );
+  };
+};
+
+export const updateRecordRequest = () => ({ type: types.ADD_RECORD_REQUEST });
+
+export const updateRecordSuccess = () => {
+  return { type: types.ADD_RECORD_SUCCESS};
+};
+
+export const updateRecordFailure = err => ({
+  type: types.ADD_RECORD_FAILURE,
+  payload: err,
+  error: true
+});
+
+/**
+ * @param {object} record
+ */
 export const deleteRecord = (record = {}) => {
   return async dispatch => {
     dispatch(deleteRecordRequest());
