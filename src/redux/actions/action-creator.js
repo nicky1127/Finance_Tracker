@@ -1,10 +1,10 @@
 import * as types from '../constants/action-type';
 import axios from 'axios';
 
-export const addRecord = payload => {
-  const obj = { type: types.ADD_RECORD, payload };
-  return obj;
-};
+// export const addRecord = payload => {
+//   const obj = { type: types.ADD_RECORD, payload };
+//   return obj;
+// };
 
 //APIs actions
 const config = { baseURL: '/api' };
@@ -48,6 +48,40 @@ export const loadRecordsFailure = err => ({
   payload: err,
   error: true
 });
+
+/**
+ * @param {object} record
+ */
+export const addRecord = (record = {}) => {
+  return async dispatch => {
+    dispatch(addRecordRequest());
+
+    return await http
+    .post('/records', { data: record }).then(
+      response => {
+        dispatch(addRecordSuccess());
+      },
+      err => {
+        dispatch(addRecordFailure(err));
+      }
+    );
+  };
+};
+
+export const addRecordRequest = () => ({ type: types.ADD_RECORD_REQUEST });
+
+export const addRecordSuccess = () => {
+  return { type: types.ADD_RECORD_SUCCESS};
+};
+
+export const addRecordFailure = err => ({
+  type: types.ADD_RECORD_FAILURE,
+  payload: err,
+  error: true
+});
+
+
+
 
 export const recordCreate = (payload = {}) => {
   return async dispatch => {
