@@ -6,6 +6,8 @@ const initialState = {
   loadRecordsError: '',
   addRecordLoading: false,
   addRecordError: '',
+  deleteRecordLoading: false,
+  deleteRecordError: '',
   error: false,
   recordCreateLoading: false,
   recordDeleteLoading: false
@@ -60,6 +62,26 @@ const recordReducer = (state = initialState, action) => {
     return Object.assign({}, state, {
       addRecordLoading: false,
       addRecordError: action.payload,
+      error: action.error
+    });
+  }
+
+  if (action.type === types.DELETE_RECORD_REQUEST) {
+    return Object.assign({}, state, {
+      deleteRecordLoading: true
+    });
+  }
+
+  if (action.type === types.DELETE_RECORD_SUCCESS) {
+    return Object.assign({}, state, {
+      deleteRecordLoading: false
+    });
+  }
+
+  if (action.type === types.DELETE_RECORD_FAILURE) {
+    return Object.assign({}, state, {
+      deleteRecordLoading: false,
+      deleteRecordError: action.payload,
       error: action.error
     });
   }

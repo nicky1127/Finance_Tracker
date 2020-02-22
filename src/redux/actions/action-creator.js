@@ -80,6 +80,36 @@ export const addRecordFailure = err => ({
   error: true
 });
 
+/**
+ * @param {object} record
+ */
+export const deleteRecord = (record = {}) => {
+  return async dispatch => {
+    dispatch(deleteRecordRequest());
+
+    return await http
+    .delete(`/records/${record.recordId}`).then(
+      response => {
+        dispatch(deleteRecordSuccess());
+      },
+      err => {
+        dispatch(deleteRecordFailure(err));
+      }
+    );
+  };
+};
+
+export const deleteRecordRequest = () => ({ type: types.DELETE_RECORD_REQUEST });
+
+export const deleteRecordSuccess = () => {
+  return { type: types.DELETE_RECORD_SUCCESS};
+};
+
+export const deleteRecordFailure = err => ({
+  type: types.DELETE_RECORD_FAILURE,
+  payload: err,
+  error: true
+});
 
 
 

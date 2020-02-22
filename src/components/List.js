@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table, Modal, Grid, Button } from 'semantic-ui-react';
-import { recordList, recordDelete, loadRecordsByPayer } from '../redux/actions/action-creator';
+import { recordList, recordDelete, loadRecordsByPayer,deleteRecord } from '../redux/actions/action-creator';
 
 import NewRecordForm from './NewRecordForm';
 import EditRecordForm from './EditRecordForm';
@@ -66,10 +66,11 @@ class ConnectedList extends Component {
 
   deleteRecord = async () => {
     const { recordToDelete, payer } = this.state;
-    const { recordDelete, recordList } = this.props;
+    const { recordDelete, recordList, deleteRecord, loadRecordsByPayer } = this.props;
     if (recordToDelete) {
       try {
-        await recordDelete({ recordId: recordToDelete }).then(() => recordList(payer));
+        // await recordDelete({ recordId: recordToDelete }).then(() => recordList(payer));
+        deleteRecord({ recordId: recordToDelete }).then(() => loadRecordsByPayer(payer));
       } catch (err) {
         console.log('err', err);
       }
@@ -193,7 +194,7 @@ class ConnectedList extends Component {
   }
 }
 
-const List = connect(mapStateToProps, { recordList, recordDelete, loadRecordsByPayer })(
+const List = connect(mapStateToProps, { recordList, recordDelete, loadRecordsByPayer,deleteRecord })(
   ConnectedList
 );
 
