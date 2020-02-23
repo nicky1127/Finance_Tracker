@@ -5,7 +5,9 @@ import {
   loadRecordsByPayer,
   deleteRecord,
   openAddRecordModal,
-  closeAddRecordModal
+  closeAddRecordModal,
+  openEditRecordModal,
+  closeEditRecordModal
 } from '../redux/actions/action-creator';
 
 import NewRecordForm from './NewRecordForm';
@@ -18,7 +20,8 @@ const mapStateToProps = state => {
     return {
       records: state.records,
       loading: state.loadRecordsLoading,
-      addRecordModalOpen: state.addRecordModalOpen
+      addRecordModalOpen: state.addRecordModalOpen,
+      editRecordModalOpen: state.editRecordModalOpen
     };
   }
   return { records: [] };
@@ -85,8 +88,6 @@ class ConnectedList extends Component {
           record={record}
           openRecordDeleteModal={this.openRecordDeleteModal}
           closeRecordDeleteModal={this.closeRecordDeleteModal}
-          openRecordEditModal={this.openRecordEditModal}
-          closeRecordEditModal={this.closeRecordEditModal}
         />
       ));
     }
@@ -130,8 +131,14 @@ class ConnectedList extends Component {
   renderLoading = () => <Loading msg="We are fetching that content for you." />;
 
   render() {
-    const { loading, addRecordModalOpen, closeAddRecordModal } = this.props;
-    const { payer, recordToEdit, openModalRecordEdit, openModalRecordDelete } = this.state;
+    const {
+      loading,
+      addRecordModalOpen,
+      closeAddRecordModal,
+      editRecordModalOpen,
+      closeEditRecordModal
+    } = this.props;
+    const { payer, openModalRecordDelete } = this.state;
     const content = loading ? this.renderLoading() : this.renderTable();
     return (
       <div className="record-list-container">
@@ -143,20 +150,17 @@ class ConnectedList extends Component {
           onClose={closeAddRecordModal}
         >
           <div>
-            <NewRecordForm payer={payer} closeRecordCreateModal={this.closeRecordCreateModal} />
+            <NewRecordForm payer={payer} />
           </div>
         </Modal>
         <Modal
           className="modal record-edit-modal"
-          open={openModalRecordEdit}
+          open={editRecordModalOpen}
           size="tiny"
-          onClose={this.closeRecordEditModal}
+          onClose={closeEditRecordModal}
         >
           <div>
-            <EditRecordForm
-              record={recordToEdit}
-              closeRecordEditModal={this.closeRecordEditModal}
-            />
+            <EditRecordForm />
           </div>
         </Modal>
         <Modal
@@ -193,7 +197,9 @@ const List = connect(mapStateToProps, {
   loadRecordsByPayer,
   deleteRecord,
   openAddRecordModal,
-  closeAddRecordModal
+  closeAddRecordModal,
+  openEditRecordModal,
+  closeEditRecordModal
 })(ConnectedList);
 
 export default List;

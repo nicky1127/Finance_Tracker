@@ -2,30 +2,24 @@ import * as types from '../constants/action-type';
 
 const initialState = {
   records: [],
+  recordToEdit: {},
   loadRecordsLoading: false,
   loadRecordsError: '',
   addRecordLoading: false,
   addRecordError: '',
+  editRecordLoading: false,
+  editRecordError: '',
   deleteRecordLoading: false,
   deleteRecordError: '',
   error: false,
 
-  addRecordModalOpen: false
+  addRecordModalOpen: false,
+  editRecordModalOpen: false
   // recordCreateLoading: false,
   // recordDeleteLoading: false
 };
 
 const recordReducer = (state = initialState, action) => {
-  // if (action.type === types.ADD_RECORD) {
-  //   return Object.assign({}, state, {
-  //     recordCreateLoading: true
-  //   });
-  // }
-  // if (action.type === types.RECORDS_DATA_LOADED) {
-  //   return Object.assign({}, state, {
-  //     records: action.payload
-  //   });
-  // }
   // new middleare ones
   if (action.type === types.LOAD_RECORDS_REQUEST) {
     return Object.assign({}, state, {
@@ -48,6 +42,7 @@ const recordReducer = (state = initialState, action) => {
     });
   }
 
+// Add a record
   if (action.type === types.ADD_RECORD_REQUEST) {
     return Object.assign({}, state, {
       addRecordLoading: true
@@ -69,6 +64,29 @@ const recordReducer = (state = initialState, action) => {
     });
   }
 
+//Edit a record
+  if (action.type === types.UPDATE_RECORD_REQUEST) {
+    return Object.assign({}, state, {
+      editRecordLoading: true
+    });
+  }
+
+  if (action.type === types.UPDATE_RECORD_SUCCESS) {
+    return Object.assign({}, state, {
+      editRecordLoading: false,
+      editRecordModalOpen: false
+    });
+  }
+
+  if (action.type === types.UPDATE_RECORD_FAILURE) {
+    return Object.assign({}, state, {
+      editRecordLoading: false,
+      editRecordError: action.payload,
+      error: action.error
+    });
+  }
+
+// Delete a record
   if (action.type === types.DELETE_RECORD_REQUEST) {
     return Object.assign({}, state, {
       deleteRecordLoading: true
@@ -99,6 +117,20 @@ const recordReducer = (state = initialState, action) => {
   if (action.type === types.CLOSE_ADD_RECORD_MODAL) {
     return Object.assign({}, state, {
       addRecordModalOpen: false
+    });
+  }
+
+  if (action.type === types.OPEN_EDIT_RECORD_MODAL) {
+    return Object.assign({}, state, {
+      editRecordModalOpen: true,
+      recordToEdit: action.payload
+    });
+  }
+
+  if (action.type === types.CLOSE_EDIT_RECORD_MODAL) {
+    return Object.assign({}, state, {
+      editRecordModalOpen: false,
+      recordToEdit: {}
     });
   }
 

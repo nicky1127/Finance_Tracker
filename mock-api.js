@@ -45,7 +45,8 @@ function recordUpdate(req, res) {
   records[idx].date = recordObj.date;
   records[idx].price = recordObj.price;
   records[idx].isPaid = recordObj.isPaid;
-  res.json({ data: records[idx].id });
+  setTimeout(()=>res.json({ data: records[idx].id }), 1000);
+  // res.json({ data: records[idx].id });
 }
 router.patch(`${apiBase}/records/:recordId`, recordUpdate);
 

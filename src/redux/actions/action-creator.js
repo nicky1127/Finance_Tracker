@@ -83,14 +83,14 @@ export const updateRecord = (record = {}) => {
   };
 };
 
-export const updateRecordRequest = () => ({ type: types.ADD_RECORD_REQUEST });
+export const updateRecordRequest = () => ({ type: types.UPDATE_RECORD_REQUEST });
 
 export const updateRecordSuccess = () => {
-  return { type: types.ADD_RECORD_SUCCESS };
+  return { type: types.UPDATE_RECORD_SUCCESS };
 };
 
 export const updateRecordFailure = err => ({
-  type: types.ADD_RECORD_FAILURE,
+  type: types.UPDATE_RECORD_FAILURE,
   payload: err,
   error: true
 });
@@ -133,4 +133,13 @@ export const openAddRecordModal = () => ({
 
 export const closeAddRecordModal = () => ({
   type: types.CLOSE_ADD_RECORD_MODAL
+});
+
+export const openEditRecordModal = record => ({
+  type: types.OPEN_EDIT_RECORD_MODAL,
+  payload: record
+});
+
+export const closeEditRecordModal = () => ({
+  type: types.CLOSE_EDIT_RECORD_MODAL
 });
