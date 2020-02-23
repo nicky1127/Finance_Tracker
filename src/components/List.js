@@ -6,8 +6,8 @@ import {
   deleteRecord,
   openAddRecordModal,
   closeAddRecordModal,
-  openEditRecordModal,
-  closeEditRecordModal
+  closeEditRecordModal,
+  closeDeleteRecordModal
 } from '../redux/actions/action-creator';
 
 import NewRecordForm from './NewRecordForm';
@@ -19,9 +19,11 @@ const mapStateToProps = state => {
   if (state) {
     return {
       records: state.records,
+      recordToDeleteId: state.recordToDeleteId,
       loading: state.loadRecordsLoading,
       addRecordModalOpen: state.addRecordModalOpen,
-      editRecordModalOpen: state.editRecordModalOpen
+      editRecordModalOpen: state.editRecordModalOpen,
+      deleteRecordModalOpen: state.deleteRecordModalOpen
     };
   }
   return { records: [] };
@@ -67,11 +69,11 @@ class ConnectedList extends Component {
   };
 
   deleteRecord = async () => {
-    const { recordToDelete, payer } = this.state;
-    const { deleteRecord, loadRecordsByPayer } = this.props;
-    if (recordToDelete) {
+    const { payer } = this.state;
+    const { deleteRecord, loadRecordsByPayer, recordToDeleteId } = this.props;
+    if (recordToDeleteId) {
       try {
-        deleteRecord({ recordId: recordToDelete }).then(() => loadRecordsByPayer(payer));
+        deleteRecord({ recordId: recordToDeleteId }).then(() => loadRecordsByPayer(payer));
       } catch (err) {
         console.log('err', err);
       }
@@ -136,13 +138,16 @@ class ConnectedList extends Component {
       addRecordModalOpen,
       closeAddRecordModal,
       editRecordModalOpen,
-      closeEditRecordModal
+      closeEditRecordModal,
+      deleteRecordModalOpen,
+      closeDeleteRecordModal
     } = this.props;
-    const { payer, openModalRecordDelete } = this.state;
+    const { payer } = this.state;
     const content = loading ? this.renderLoading() : this.renderTable();
     return (
       <div className="record-list-container">
         {content}
+
         <Modal
           className="modal record-create-modal"
           open={addRecordModalOpen}
@@ -153,6 +158,7 @@ class ConnectedList extends Component {
             <NewRecordForm payer={payer} />
           </div>
         </Modal>
+
         <Modal
           className="modal record-edit-modal"
           open={editRecordModalOpen}
@@ -163,11 +169,12 @@ class ConnectedList extends Component {
             <EditRecordForm />
           </div>
         </Modal>
+
         <Modal
           className="longer record-delete-modal"
-          open={openModalRecordDelete}
+          open={deleteRecordModalOpen}
           size="tiny"
-          onClose={this.closeRecordDeleteModal}
+          onClose={closeDeleteRecordModal}
         >
           <Modal.Header>Delete Record</Modal.Header>
           <Modal.Content>
@@ -176,7 +183,7 @@ class ConnectedList extends Component {
             </div>
           </Modal.Content>
           <Modal.Actions>
-            <Button negative onClick={this.closeRecordDeleteModal}>
+            <Button negative onClick={closeDeleteRecordModal}>
               No
             </Button>
             <Button
@@ -198,8 +205,8 @@ const List = connect(mapStateToProps, {
   deleteRecord,
   openAddRecordModal,
   closeAddRecordModal,
-  openEditRecordModal,
-  closeEditRecordModal
+  closeEditRecordModal,
+  closeDeleteRecordModal
 })(ConnectedList);
 
 export default List;

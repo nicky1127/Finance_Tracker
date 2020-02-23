@@ -3,6 +3,7 @@ import * as types from '../constants/action-type';
 const initialState = {
   records: [],
   recordToEdit: {},
+  recordToDeleteId: null,
   loadRecordsLoading: false,
   loadRecordsError: '',
   addRecordLoading: false,
@@ -14,7 +15,8 @@ const initialState = {
   error: false,
 
   addRecordModalOpen: false,
-  editRecordModalOpen: false
+  editRecordModalOpen: false,
+  deleteRecordModalOpen: false
   // recordCreateLoading: false,
   // recordDeleteLoading: false
 };
@@ -42,7 +44,7 @@ const recordReducer = (state = initialState, action) => {
     });
   }
 
-// Add a record
+  // Add a record
   if (action.type === types.ADD_RECORD_REQUEST) {
     return Object.assign({}, state, {
       addRecordLoading: true
@@ -64,7 +66,7 @@ const recordReducer = (state = initialState, action) => {
     });
   }
 
-//Edit a record
+  //Edit a record
   if (action.type === types.UPDATE_RECORD_REQUEST) {
     return Object.assign({}, state, {
       editRecordLoading: true
@@ -86,7 +88,7 @@ const recordReducer = (state = initialState, action) => {
     });
   }
 
-// Delete a record
+  // Delete a record
   if (action.type === types.DELETE_RECORD_REQUEST) {
     return Object.assign({}, state, {
       deleteRecordLoading: true
@@ -95,7 +97,8 @@ const recordReducer = (state = initialState, action) => {
 
   if (action.type === types.DELETE_RECORD_SUCCESS) {
     return Object.assign({}, state, {
-      deleteRecordLoading: false
+      deleteRecordLoading: false,
+      deleteRecordModalOpen: false
     });
   }
 
@@ -131,6 +134,20 @@ const recordReducer = (state = initialState, action) => {
     return Object.assign({}, state, {
       editRecordModalOpen: false,
       recordToEdit: {}
+    });
+  }
+
+  if (action.type === types.OPEN_DELETE_RECORD_MODAL) {
+    return Object.assign({}, state, {
+      deleteRecordModalOpen: true,
+      recordToDeleteId: action.payload
+    });
+  }
+
+  if (action.type === types.CLOSE_DELETE_RECORD_MODAL) {
+    return Object.assign({}, state, {
+      deleteRecordModalOpen: false,
+      recordToDeleteId: null
     });
   }
 

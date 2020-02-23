@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table, Button, Icon } from 'semantic-ui-react';
 
-import { openEditRecordModal } from '../redux/actions/action-creator';
+import { openEditRecordModal,openDeleteRecordModal } from '../redux/actions/action-creator';
 
 class ConnectedRecordTableRow extends Component {
   buttonsDom = record => {
-    const { openEditRecordModal, openRecordDeleteModal } = this.props;
+    const { openEditRecordModal, openDeleteRecordModal } = this.props;
     return (
       <div>
         <Button onClick={() => openEditRecordModal(record)}>
           <Icon name="edit" />
         </Button>
-        <Button onClick={() => openRecordDeleteModal(record.id)}>
+        <Button onClick={() => openDeleteRecordModal(record.id)}>
           <Icon name="trash" />
         </Button>
       </div>
@@ -33,7 +33,8 @@ class ConnectedRecordTableRow extends Component {
 }
 
 const RecordTableRow = connect(null, {
-  openEditRecordModal
+  openEditRecordModal,
+  openDeleteRecordModal
 })(ConnectedRecordTableRow);
 
 export default RecordTableRow;

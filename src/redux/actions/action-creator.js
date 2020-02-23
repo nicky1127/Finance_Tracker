@@ -143,3 +143,12 @@ export const openEditRecordModal = record => ({
 export const closeEditRecordModal = () => ({
   type: types.CLOSE_EDIT_RECORD_MODAL
 });
+
+export const openDeleteRecordModal = recordId => ({
+  type: types.OPEN_DELETE_RECORD_MODAL,
+  payload: recordId
+});
+
+export const closeDeleteRecordModal = () => ({
+  type: types.CLOSE_DELETE_RECORD_MODAL
+});
