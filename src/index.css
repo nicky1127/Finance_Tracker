@@ -11,3 +11,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.record-list-container{
+  margin: 50px 50px;
+}
+
+.new-record-container {
+  padding:50px 30px;
+  
+}
+.new-record-form {
+  padding-top:20px;
+}
