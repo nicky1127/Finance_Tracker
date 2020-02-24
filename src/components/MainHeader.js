@@ -3,6 +3,8 @@ import { Menu } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { toast } from 'react-toastify';
+
 class ConnectedMainHeader extends Component {
   constructor(props) {
     super(props);
@@ -11,7 +13,6 @@ class ConnectedMainHeader extends Component {
     };
   }
 
-
   render() {
     const { activeItem } = this.state;
 
@@ -19,17 +20,17 @@ class ConnectedMainHeader extends Component {
       <Menu>
         <Menu.Item>Finance Recoder</Menu.Item>
         <Menu.Item active={activeItem === 'nina'}>
-          <Link to="/payer/nina" name="nina" >
+          <Link to="/payer/nina" name="nina">
             Nina
           </Link>
         </Menu.Item>
         <Menu.Item active={activeItem === 'jessi'}>
-          <Link to="/payer/jessi" name="jessi" >
+          <Link to="/payer/jessi" name="jessi">
             Jessi
           </Link>
         </Menu.Item>
         <Menu.Item active={activeItem === 'bronk'}>
-          <Link to="/payer/bronk" name="bronk" >
+          <Link to="/payer/bronk" name="bronk">
             Bronk
           </Link>
         </Menu.Item>
@@ -38,8 +39,6 @@ class ConnectedMainHeader extends Component {
   }
 }
 
-const MainHeader = connect(
-  null
-)(ConnectedMainHeader);
+const MainHeader = connect(null)(ConnectedMainHeader);
 
 export default MainHeader;
