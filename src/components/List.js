@@ -18,12 +18,12 @@ import Loading from './Loading';
 const mapStateToProps = state => {
   if (state) {
     return {
-      records: state.records,
-      recordToDeleteId: state.recordToDeleteId,
-      loading: state.loadRecordsLoading,
-      addRecordModalOpen: state.addRecordModalOpen,
-      editRecordModalOpen: state.editRecordModalOpen,
-      deleteRecordModalOpen: state.deleteRecordModalOpen
+      records: state.records.records,
+      recordToDeleteId: state.records.recordToDeleteId,
+      loading: state.records.loadRecordsLoading,
+      addRecordModalOpen: state.records.addRecordModalOpen,
+      editRecordModalOpen: state.records.editRecordModalOpen,
+      deleteRecordModalOpen: state.records.deleteRecordModalOpen
     };
   }
   return { records: [] };

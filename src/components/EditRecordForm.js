@@ -8,8 +8,8 @@ import Loading from './Loading';
 const mapStateToProps = state => {
   if (state) {
     return {
-      record: state.recordToEdit,
-      loading: state.editRecordLoading,
+      record: state.records.recordToEdit,
+      loading: state.records.editRecordLoading,
     };
   }
 };

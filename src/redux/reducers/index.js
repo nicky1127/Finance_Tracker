@@ -1,6 +1,6 @@
-import { combineReducer } from 'redux';
-import records from './recordReucer';
+import { combineReducers } from 'redux';
+import recordReucer from './recordReucer';
 
-const rootReducer = combineReducer({ records });
+const rootReducer = combineReducers({ records:recordReucer });
 
 export default rootReducer;

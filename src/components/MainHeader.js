@@ -6,8 +6,7 @@ import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const mapStateToProps = state => {
-  const { loadRecordsError } = state;
-  return { error: loadRecordsError };
+  return { error: state.records.loadRecordsError };
 };
 
 class ConnectedMainHeader extends Component {

@@ -9,7 +9,7 @@ import Loading from './Loading';
 const mapStateToProps = state => {
   if (state) {
     return {
-      loading: state.addRecordLoading,
+      loading: state.records.addRecordLoading,
     };
   }
 };
