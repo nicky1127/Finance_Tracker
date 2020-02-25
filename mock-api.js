@@ -1,6 +1,7 @@
 const express = require('express');
 const moment = require('moment');
 const bodyParser = require('body-parser');
+const createError = require('http-errors');
 
 const router = express.Router();
 const app = express();
@@ -27,6 +28,7 @@ function recordsListByPayer(req, res) {
   const recordsObj = [...records].filter(record => record.payer === payer);
   // setTimeout(()=>res.json({ data: recordsObj }), 1000);
   res.json({ data: recordsObj });
+  // throw createError(500, 'error testing 1 2 3!');
 }
 router.get(`${apiBase}/records`, recordsListByPayer);
 
@@ -45,7 +47,7 @@ function recordUpdate(req, res) {
   records[idx].date = recordObj.date;
   records[idx].price = recordObj.price;
   records[idx].isPaid = recordObj.isPaid;
-  setTimeout(()=>res.json({ data: records[idx].id }), 1000);
+  setTimeout(() => res.json({ data: records[idx].id }), 1000);
   // res.json({ data: records[idx].id });
 }
 router.patch(`${apiBase}/records/:recordId`, recordUpdate);
@@ -59,5 +61,21 @@ router.delete(`${apiBase}/records/:recordId`, recordDelete);
 
 //=======================================================
 app.use(router);
+
+app.use((req, res, next) => {
+  next(createError(404));
+});
+
+app.use((err, req, res, next) => {
+  console.log('err.expose:',err.expose)
+  if (err.expose === undefined) {
+    console.log('err.expose:',err.expose)
+    const httpErr = createError(500);
+    res.status(httpErr.status).json({ error: httpErr.message });
+  } else {
+    res.status(err.status).json({ error: err.message });
+  }
+});
+
 app.listen(port, () => log(`${name} listening on port ${port}`));
 //=======================================================

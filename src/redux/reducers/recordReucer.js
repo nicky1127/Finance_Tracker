@@ -25,14 +25,18 @@ const recordReducer = (state = initialState, action) => {
   // new middleare ones
   if (action.type === types.LOAD_RECORDS_REQUEST) {
     return Object.assign({}, state, {
-      loadRecordsLoading: true
+      loadRecordsLoading: true,
+      loadRecordsError: '',
+      error: false
     });
   }
 
   if (action.type === types.LOAD_RECORDS_SUCCESS) {
     return Object.assign({}, state, {
       records: action.payload,
-      loadRecordsLoading: false
+      loadRecordsLoading: false,
+      loadRecordsError: '',
+      error: false
     });
   }
 

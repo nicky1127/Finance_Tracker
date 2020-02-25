@@ -1,9 +1,7 @@
 import * as types from '../constants/action-type';
-import axios from 'axios';
+import * as api from './api';
 
 //APIs actions
-const config = { baseURL: '/api' };
-const http = axios.create(config);
 
 /**
  * @param {string} payer
@@ -12,7 +10,7 @@ export const loadRecordsByPayer = payer => {
   return async dispatch => {
     dispatch(loadRecordsRequest());
 
-    return await http.get('/records', { params: { payer } }).then(
+    return await api.loadRecordsByPayer(payer).then(
       response => {
         dispatch(loadRecordsSuccess(response.data.data));
       },
@@ -31,7 +29,7 @@ export const loadRecordsSuccess = records => {
 
 export const loadRecordsFailure = err => ({
   type: types.LOAD_RECORDS_FAILURE,
-  payload: err,
+  payload: err.response.data.error,
   error: true
 });
 
@@ -42,7 +40,7 @@ export const addRecord = (record = {}) => {
   return async dispatch => {
     dispatch(addRecordRequest());
 
-    return await http.post('/records', { data: record }).then(
+    return await api.addRecord(record).then(
       response => {
         dispatch(addRecordSuccess());
       },
@@ -72,7 +70,7 @@ export const updateRecord = (record = {}) => {
   return async dispatch => {
     dispatch(updateRecordRequest());
 
-    return await http.patch(`/records/${record.id}`, { data: record }).then(
+    return await api.updateRecord(record).then(
       response => {
         dispatch(updateRecordSuccess());
       },
@@ -102,7 +100,7 @@ export const deleteRecord = (record = {}) => {
   return async dispatch => {
     dispatch(deleteRecordRequest());
 
-    return await http.delete(`/records/${record.recordId}`).then(
+    return await api.deleteRecord(record).then(
       response => {
         dispatch(deleteRecordSuccess());
       },

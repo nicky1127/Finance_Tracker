@@ -5,12 +5,23 @@ import { connect } from 'react-redux';
 
 import { toast } from 'react-toastify';
 
+const mapStateToProps = state => {
+  const { loadRecordsError } = state;
+  return { error: loadRecordsError };
+};
+
 class ConnectedMainHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
       activeItem: null
     };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.error) {
+      toast.warn(this.props.error);
+    }
   }
 
   render() {
@@ -39,6 +50,6 @@ class ConnectedMainHeader extends Component {
   }
 }
 
-const MainHeader = connect(null)(ConnectedMainHeader);
+const MainHeader = connect(mapStateToProps)(ConnectedMainHeader);
 
 export default MainHeader;
