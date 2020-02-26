@@ -59,7 +59,7 @@ export const addRecordSuccess = () => {
 
 export const addRecordFailure = err => ({
   type: types.ADD_RECORD_FAILURE,
-  payload: err,
+  payload: err.response.data.error,
   error: true
 });
 
@@ -89,7 +89,7 @@ export const updateRecordSuccess = () => {
 
 export const updateRecordFailure = err => ({
   type: types.UPDATE_RECORD_FAILURE,
-  payload: err,
+  payload: err.response.data.error,
   error: true
 });
 
@@ -119,7 +119,7 @@ export const deleteRecordSuccess = () => {
 
 export const deleteRecordFailure = err => ({
   type: types.DELETE_RECORD_FAILURE,
-  payload: err,
+  payload: err.response.data.error,
   error: true
 });
 

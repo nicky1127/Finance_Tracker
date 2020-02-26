@@ -28,20 +28,22 @@ function recordsListByPayer(req, res) {
   const recordsObj = [...records].filter(record => record.payer === payer);
   // setTimeout(()=>res.json({ data: recordsObj }), 1000);
   res.json({ data: recordsObj });
-  // throw createError(500, 'error testing 1 2 3!');
+  // throw createError(404, `Failed to laod records related to ${payer}`);
 }
 router.get(`${apiBase}/records`, recordsListByPayer);
 
 function recordCreate(req, res) {
   const record = req.body.data;
+  throw createError(404, `Failed to add record related to ${record.payer}`);
   records.push(record);
-  setTimeout(() => res.json({ data: record.id }), 2000);
+  // setTimeout(() => res.json({ data: record.id }), 2000);
   // res.json({ data: record.id });
 }
 router.post(`${apiBase}/records`, recordCreate);
 
 function recordUpdate(req, res) {
   const recordObj = req.body.data;
+  throw createError(404, `Failed to update record related to ${recordObj.payer}`);
   const idx = records.findIndex(record => record.id.toString() === recordObj.id.toString());
   records[idx].title = recordObj.title;
   records[idx].date = recordObj.date;
@@ -54,6 +56,7 @@ router.patch(`${apiBase}/records/:recordId`, recordUpdate);
 
 function recordDelete(req, res) {
   const { recordId } = req.params;
+  throw createError(404, `Failed to delete the record`);
   records = [...records].filter(record => record.id.toString() !== recordId.toString());
   res.json({});
 }

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const mapStateToProps = state => {
-  return { error: state.records.loadRecordsError };
+  return { error: state.records.errorMsg };
 };
 
 class ConnectedMainHeader extends Component {
@@ -19,7 +19,7 @@ class ConnectedMainHeader extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.error) {
-      toast.warn(this.props.error);
+      toast.error(this.props.error);
     }
   }
 

@@ -14,6 +14,8 @@ const initialState = {
   deleteRecordError: '',
   error: false,
 
+  errorMsg:'',
+
   addRecordModalOpen: false,
   editRecordModalOpen: false,
   deleteRecordModalOpen: false
@@ -26,7 +28,7 @@ const recordReducer = (state = initialState, action) => {
   if (action.type === types.LOAD_RECORDS_REQUEST) {
     return Object.assign({}, state, {
       loadRecordsLoading: true,
-      loadRecordsError: '',
+      errorMsg: '',
       error: false
     });
   }
@@ -35,7 +37,7 @@ const recordReducer = (state = initialState, action) => {
     return Object.assign({}, state, {
       records: action.payload,
       loadRecordsLoading: false,
-      loadRecordsError: '',
+      errorMsg: '',
       error: false
     });
   }
@@ -43,7 +45,7 @@ const recordReducer = (state = initialState, action) => {
   if (action.type === types.LOAD_RECORDS_FAILURE) {
     return Object.assign({}, state, {
       loadRecordsLoading: false,
-      loadRecordsError: action.payload,
+      errorMsg: action.payload,
       error: action.error
     });
   }
@@ -51,21 +53,24 @@ const recordReducer = (state = initialState, action) => {
   // Add a record
   if (action.type === types.ADD_RECORD_REQUEST) {
     return Object.assign({}, state, {
-      addRecordLoading: true
+      addRecordLoading: true,
+      errorMsg: ''
     });
   }
 
   if (action.type === types.ADD_RECORD_SUCCESS) {
     return Object.assign({}, state, {
       addRecordLoading: false,
-      addRecordModalOpen: false
+      addRecordModalOpen: false,
+      errorMsg: ''
     });
   }
 
   if (action.type === types.ADD_RECORD_FAILURE) {
     return Object.assign({}, state, {
       addRecordLoading: false,
-      addRecordError: action.payload,
+      // addRecordError: action.payload,
+      errorMsg: action.payload,
       error: action.error
     });
   }
@@ -73,21 +78,24 @@ const recordReducer = (state = initialState, action) => {
   //Edit a record
   if (action.type === types.UPDATE_RECORD_REQUEST) {
     return Object.assign({}, state, {
-      editRecordLoading: true
+      editRecordLoading: true,
+      errorMsg: ''
     });
   }
 
   if (action.type === types.UPDATE_RECORD_SUCCESS) {
     return Object.assign({}, state, {
       editRecordLoading: false,
-      editRecordModalOpen: false
+      editRecordModalOpen: false,
+      errorMsg: ''
     });
   }
 
   if (action.type === types.UPDATE_RECORD_FAILURE) {
     return Object.assign({}, state, {
       editRecordLoading: false,
-      editRecordError: action.payload,
+      // editRecordError: action.payload,
+      errorMsg: action.payload,
       error: action.error
     });
   }
@@ -95,21 +103,24 @@ const recordReducer = (state = initialState, action) => {
   // Delete a record
   if (action.type === types.DELETE_RECORD_REQUEST) {
     return Object.assign({}, state, {
-      deleteRecordLoading: true
+      deleteRecordLoading: true,
+      errorMsg: ''
     });
   }
 
   if (action.type === types.DELETE_RECORD_SUCCESS) {
     return Object.assign({}, state, {
       deleteRecordLoading: false,
-      deleteRecordModalOpen: false
+      deleteRecordModalOpen: false,
+      errorMsg: ''
     });
   }
 
   if (action.type === types.DELETE_RECORD_FAILURE) {
     return Object.assign({}, state, {
       deleteRecordLoading: false,
-      deleteRecordError: action.payload,
+      // deleteRecordError: action.payload,
+      errorMsg: action.payload,
       error: action.error
     });
   }
