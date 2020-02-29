@@ -1,4 +1,5 @@
 const express = require('express');
+require('express-async-errors');
 const moment = require('moment');
 const bodyParser = require('body-parser');
 const createError = require('http-errors');
@@ -32,18 +33,28 @@ function recordsListByPayer(req, res) {
 }
 router.get(`${apiBase}/records`, recordsListByPayer);
 
-function recordCreate(req, res) {
+
+const promiseTimeout = (delay) =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject()
+    }, delay)
+  })
+
+async function recordCreate(req, res) {
   const record = req.body.data;
-  throw createError(404, `Failed to add record related to ${record.payer}`);
-  records.push(record);
+
+  await promiseTimeout(1000).catch(()=>{throw createError(404, `Failed to add record related to ${record.payer}`)});
+  // throw createError(404, `Failed to add record related to ${record.payer}`);
+  // records.push(record);
   // setTimeout(() => res.json({ data: record.id }), 2000);
   // res.json({ data: record.id });
-}
+};
 router.post(`${apiBase}/records`, recordCreate);
 
 function recordUpdate(req, res) {
   const recordObj = req.body.data;
-  throw createError(404, `Failed to update record related to ${recordObj.payer}`);
+  throw createError(404, `Failed to update record related to`);
   const idx = records.findIndex(record => record.id.toString() === recordObj.id.toString());
   records[idx].title = recordObj.title;
   records[idx].date = recordObj.date;
