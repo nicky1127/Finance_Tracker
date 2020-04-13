@@ -15,6 +15,8 @@ import EditRecordForm from './EditRecordForm';
 import RecordTableRow from './RecordTableRow';
 import Loading from './Loading';
 
+import sysLogger from '../utils/logger';
+
 const mapStateToProps = state => {
   if (state) {
     return {
@@ -45,6 +47,14 @@ class ConnectedList extends Component {
   componentDidMount() {
     this.loadRecords();
     // this.setState({ stage: 'ready' });
+
+    // console.log({abc:123});
+    // sysLogger.trace('log 0  trace');
+    // sysLogger.debug('log 1  debug');
+    // sysLogger.info('log 2  info');
+    // sysLogger.warn('log 3 warn');
+    // sysLogger.error('log 4 error');
+
   }
 
   loadRecords() {
