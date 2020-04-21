@@ -8,7 +8,7 @@ const app = express();
 router.use(bodyParser.json());
 
 const name = 'mock-api.finance-recorder';
-const port = 5000;
+const port = 3003;
 
 const apiBase = '/api';
 
