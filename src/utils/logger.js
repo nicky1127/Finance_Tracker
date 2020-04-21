@@ -2,7 +2,7 @@ import log from 'loglevel';
 
 const level = window.localStorage ? window.localStorage.getItem('LOGLEVEL') : 5;
 
-switch (level) {
+switch (level) { 
   case '0':
     log.setLevel('trace');
     console.log('set trace',)
