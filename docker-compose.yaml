@@ -3,7 +3,9 @@ version: '3'
 services:
 
   server:
+    container_name: finance_tracker_backend
     build: ./server
+    image: nximage/finance_tracker_backend
     expose:
       - ${APP_SERVER_PORT}
     environment:
@@ -18,7 +20,9 @@ services:
       - finance_tracker_network
 
   client:
+    container_name: finance_tracker_frontend
     build: ./client
+    image: nximage/finance_tracker_frontend
     environment:
       - REACT_APP_PORT=${REACT_APP_PORT}
     expose:
