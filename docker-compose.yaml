@@ -14,6 +14,8 @@ services:
     volumes:
       - ./server/src:/srv/app/fr-shohin-admin-server/src
     command: npm run dev
+    networks:
+      - finance_tracker_network
 
   client:
     build: ./client
@@ -27,3 +29,11 @@ services:
       - ./client/src:/srv/app/fr-shohin-admin-client/src
       - ./client/public:/srv/app/fr-shohin-admin-client/public
     command: npm run start
+    depends_on: 
+      - server
+    networks:
+      - finance_tracker_network
+
+networks: 
+  finance_tracker_network:
+    driver: bridge

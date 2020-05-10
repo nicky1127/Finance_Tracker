@@ -37,7 +37,13 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8000/",
+  "proxy": {
+    "/api": {
+      "target": "http://server:8000/",
+      "secure": false,
+      "changeOrigin": true
+    }
+  },
   "devDependencies": {
     "nodemon": "^1.19.3",
     "react-redux": "^7.1.1",
