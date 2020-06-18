@@ -10,4 +10,4 @@ RUN npm install
 
 COPY . /srv/app/nickylai-admin-server
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]
